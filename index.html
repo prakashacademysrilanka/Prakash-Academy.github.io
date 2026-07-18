@@ -49,31 +49,17 @@
             box-shadow: 0 0 20px rgba(239, 68, 68, 0.3);
         }
 
-        .powered-by {
-            position: relative;
-            overflow: hidden;
-            border: 1px solid rgba(239, 68, 68, 0.3);
-        }
-        .powered-by::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -150%;
-            width: 40%;
-            height: 300%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), rgba(239, 68, 68, 0.7), rgba(255,255,255,0.15), transparent);
-            animation: scanShine 3s linear infinite;
-            z-index: 1;
-        }
-        @keyframes scanShine {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(600%); }
+        .package-content {
+            background: linear-gradient(145deg, #1f1f1f, #111827);
+            border: 2px solid rgba(234, 179, 8, 0.6);
+            box-shadow: 0 0 60px -10px rgba(234, 179, 8, 0.7);
         }
     </style>
 </head>
 
 <body class="bg-glow flex items-center justify-center min-h-screen p-4 select-none">
 
+    <!-- Auth Portal -->
     <div id="auth-portal" class="w-full max-w-[420px] z-10">
         <div class="cyber-card rounded-[2.5rem] p-8 relative">
             <div class="absolute top-0 inset-x-0 h-[3px] bg-gradient-to-r from-transparent via-red-500 to-transparent"></div>
@@ -99,8 +85,8 @@
             </div>
 
             <div class="relative min-h-[460px]">
-                <!-- REGISTER VIEW -->
                 <div id="view-register" class="slide-effect space-y-4">
+                    <!-- Registration Form (unchanged) -->
                     <div class="grid grid-cols-2 gap-3">
                         <div><span class="block text-[8px] text-slate-400 font-extrabold uppercase tracking-widest mb-1.5 ml-1">Full Name *</span>
                             <input type="text" id="full-name" placeholder="First Name" class="w-full neon-input rounded-2xl px-4 py-3.5 text-xs text-white placeholder-slate-600 outline-none" required>
@@ -119,7 +105,7 @@
                             <input type="text" id="region" placeholder="Province / State" class="w-full neon-input rounded-2xl px-4 py-3.5 text-xs text-white placeholder-slate-600 outline-none" required>
                         </div>
                         <div><span class="block text-[8px] text-slate-400 font-extrabold uppercase tracking-widest mb-1.5 ml-1">Postal Code *</span>
-                            <input type="tel" id="postal-code" maxlength="10" placeholder="Postal Code" onkeypress="return event.charCode >= 48 && event.charCode <= 57" class="w-full neon-input rounded-2xl px-4 py-3.5 text-xs text-white placeholder-slate-600 outline-none" required>
+                            <input type="tel" id="postal-code" maxlength="10" placeholder="Postal Code" class="w-full neon-input rounded-2xl px-4 py-3.5 text-xs text-white placeholder-slate-600 outline-none" required>
                         </div>
                     </div>
 
@@ -132,55 +118,29 @@
                             <input type="number" id="age" min="1" max="100" placeholder="Your Age" class="w-full neon-input rounded-2xl px-4 py-3.5 text-xs text-white placeholder-slate-600 outline-none" required>
                         </div>
                         <div><span class="block text-[8px] text-slate-400 font-extrabold uppercase tracking-widest mb-1.5 ml-1">Phone Number *</span>
-                            <input type="tel" id="phone" maxlength="15" placeholder="+94 XX XXX XXXX" onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.charCode === 43" class="w-full neon-input rounded-2xl px-4 py-3.5 text-xs text-white placeholder-slate-600 outline-none" required>
+                            <input type="tel" id="phone" maxlength="15" placeholder="+94 XX XXX XXXX" class="w-full neon-input rounded-2xl px-4 py-3.5 text-xs text-white placeholder-slate-600 outline-none" required>
                         </div>
                     </div>
 
                     <div><span class="block text-[8px] text-slate-400 font-extrabold uppercase tracking-widest mb-1.5 ml-1">Whatsapp Number *</span>
-                        <input type="tel" id="whatsapp" maxlength="15" placeholder="+94 XX XXX XXXX" onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.charCode === 43" class="w-full neon-input rounded-2xl px-4 py-3.5 text-xs text-white placeholder-slate-600 outline-none" required>
+                        <input type="tel" id="whatsapp" maxlength="15" placeholder="+94 XX XXX XXXX" class="w-full neon-input rounded-2xl px-4 py-3.5 text-xs text-white placeholder-slate-600 outline-none" required>
                     </div>
 
-                    <!-- Improved Credentials Popup -->
-                    <div id="credentials-popup" class="hidden bg-red-950/60 border border-red-500/50 p-6 rounded-3xl text-center space-y-5 mt-6">
-                        <div class="text-emerald-400 text-sm font-black tracking-widest flex items-center justify-center gap-2">
-                            <span class="w-2 h-2 bg-emerald-400 rounded-full animate-ping"></span>
-                            ACCOUNT CREATED SUCCESSFULLY
-                        </div>
-                        
-                        <div class="bg-black/80 p-5 rounded-2xl border border-white/10 text-left space-y-4 font-mono text-sm">
-                            <div class="flex justify-between items-center">
-                                <span class="text-slate-400">Username (ID):</span>
-                                <strong id="generated-user" class="text-red-400"></strong>
-                            </div>
-                            <div class="flex justify-between items-center">
-                                <span class="text-slate-400">Password:</span>
-                                <strong id="generated-pass" class="text-white"></strong>
-                            </div>
-                        </div>
-
-                        <button onclick="copyCredentials()" 
-                                class="w-full py-4 bg-white hover:bg-emerald-400 hover:text-black text-black font-black text-sm uppercase tracking-widest rounded-2xl transition-all">
-                            📋 COPY USERNAME & PASSWORD
-                        </button>
-
-                        <p id="copy-status" class="text-emerald-400 text-sm font-medium hidden">✅ Copied to clipboard!</p>
-                    </div>
-
-                    <button id="btn-submit-register" onclick="generateAccountDirectly(event)" class="w-full py-4 bg-gradient-to-r from-red-500 to-red-600 text-white font-black text-xs uppercase tracking-widest rounded-2xl">
+                    <button onclick="generateAccountDirectly(event)" class="w-full py-4 bg-gradient-to-r from-red-500 to-red-600 text-white font-black text-xs uppercase tracking-widest rounded-2xl">
                         REGISTER & GENERATE ACCOUNT
                     </button>
 
-                    <div class="flex justify-center mt-6">
-                        <div class="powered-by px-6 py-3 rounded-2xl bg-black/60 flex items-center gap-2 text-xs tracking-widest font-medium text-red-400/80 hover:text-red-400 transition-all relative">
-                            <span class="text-red-500 animate-pulse">⚡</span>
-                            POWERED BY 
-                            <span class="cyber-font font-black text-white tracking-[-1px]">PRAKASH ACADEMY</span>
-                            <span class="text-red-500 animate-pulse">⚡</span>
+                    <div id="register-success" class="hidden success-box rounded-3xl p-6 mt-6 text-center">
+                        <p class="text-green-400 text-sm font-bold mb-4">✅ ACCOUNT CREATED SUCCESSFULLY!</p>
+                        <div class="bg-black/50 rounded-2xl p-5 text-left space-y-4">
+                            <div class="flex justify-between"><span class="text-slate-400">Account ID</span><span id="success-userid" class="font-mono text-red-400 font-bold"></span></div>
+                            <div class="flex justify-between"><span class="text-slate-400">Password</span><span id="success-password" class="font-mono text-white font-bold"></span></div>
                         </div>
+                        <button onclick="copyCredentials()" class="mt-4 w-full py-3 bg-white text-black rounded-2xl font-bold text-sm">📋 COPY CREDENTIALS</button>
+                        <button onclick="goToLoginAfterRegister()" class="mt-3 w-full py-3 bg-red-500/10 text-red-400 rounded-2xl font-bold">CONTINUE TO LOGIN →</button>
                     </div>
                 </div>
 
-                <!-- LOGIN VIEW -->
                 <div id="view-login" class="slide-effect space-y-4 hidden">
                     <div>
                         <label class="block text-[8px] text-slate-400 font-black uppercase tracking-widest mb-2 ml-1">Account ID (9 Digits)</label>
@@ -201,46 +161,65 @@
         </div>
     </div>
 
-    <!-- Success Screen -->
-    <div id="success-screen" class="hidden w-full max-w-[500px] z-10">
-        <div class="cyber-card rounded-[3rem] p-10 text-center">
-            <div class="inline-flex items-center gap-2 bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 px-4 py-1.5 rounded-full text-xs font-black tracking-widest uppercase mb-8">
-                <span class="w-2 h-2 bg-emerald-400 rounded-full animate-ping"></span> SUCCESS
-            </div>
+    <!-- Dashboard -->
+    <div id="dashboard" class="hidden w-full max-w-5xl z-10">
+        <div class="flex justify-between items-center mb-8 px-6 py-4 bg-black/60 border border-white/10 rounded-3xl">
+            <h1 class="text-3xl font-black text-white cyber-font">PRAKASH ACADEMY</h1>
+            <button onclick="toggleProfile()" class="w-10 h-10 bg-red-500 hover:bg-red-600 rounded-2xl flex items-center justify-center text-white font-bold text-xl transition-all">👤</button>
+        </div>
 
-            <div class="w-24 h-24 mx-auto mb-6 bg-gradient-to-tr from-emerald-500 to-teal-600 rounded-3xl flex items-center justify-center">
-                <span class="text-6xl">🎓</span>
-            </div>
-
-            <h2 class="text-3xl font-black text-white mb-4">WELCOME TO PRAKASH ACADEMY</h2>
+        <div class="cyber-card rounded-3xl p-10">
+            <h2 class="text-4xl font-black text-white mb-8 text-center">Welcome Back, Trader!</h2>
             
-            <div class="bg-zinc-950/70 border border-emerald-500/30 rounded-2xl p-6 mb-8 text-left">
-                <p class="text-white text-sm leading-relaxed">
-                    ඔබගේ ලියාපදිංචිය සාර්තකයි!<br><br>
-                    ඔබගෙ whatsapp number එකට පනිවිඩයක් ලැබෙනු ඇත.<br><br>
-                    වැඩි විස්තර සඳහා Telegram Channel එකට එක්වන්න.
-                </p>
+            <div id="trading-section" class="hidden">
+                <h3 class="text-3xl font-bold text-white mb-8 text-center cyber-font">TRADING LEARN</h3>
+                
+                <div id="package-container" class="max-w-md mx-auto">
+                    <button onclick="showPackageInPlace()" class="w-full py-8 bg-gradient-to-r from-red-500 via-orange-500 to-yellow-500 text-white font-black text-2xl rounded-3xl shadow-2xl shadow-orange-500/50 hover:scale-105 hover:shadow-yellow-500/60 transition-all duration-300">
+                        <div class="flex flex-col items-center gap-3">
+                            <span class="text-5xl">💎</span>
+                            <div>
+                                <span class="block text-xl tracking-widest">BUY PREMIUM</span>
+                                <span class="block text-3xl">LKR 800 PACKAGE</span>
+                            </div>
+                            <span class="text-sm opacity-90">Full Access to All Crypto & Forex Videos</span>
+                        </div>
+                    </button>
+                </div>
+
+                <div class="text-center mt-8">
+                    <button onclick="hideTradingSection()" class="text-slate-400 hover:text-white underline">← Back to Dashboard</button>
+                </div>
             </div>
 
-            <a href="https://t.me/+FWj9JoKwHbg0NWNl" target="_blank" class="block w-full py-4 bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-black text-sm uppercase tracking-widest rounded-2xl mb-4">
-                JOIN NOW TELEGRAM CHANNEL
-            </a>
+            <div id="main-dashboard" class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-2xl mx-auto">
+                <button onclick="showTradingSection()" class="group bg-gradient-to-br from-zinc-900 to-black border border-red-500/30 hover:border-red-500 p-8 rounded-3xl transition-all hover:scale-105">
+                    <div class="text-6xl mb-4">📚</div>
+                    <h3 class="text-2xl font-black text-white mb-2">Trading Learn</h3>
+                    <p class="text-slate-400">Master technical analysis, risk management & strategies</p>
+                </button>
 
-            <button onclick="logout()" class="w-full py-4 bg-zinc-800 text-red-400 font-black text-xs uppercase tracking-widest rounded-2xl">
-                ← BACK TO LOGIN
-            </button>
+                <button onclick="alert('Signal Channels Coming Soon!')" class="group bg-gradient-to-br from-zinc-900 to-black border border-red-500/30 hover:border-red-500 p-8 rounded-3xl transition-all hover:scale-105">
+                    <div class="text-6xl mb-4">📡</div>
+                    <h3 class="text-2xl font-black text-white mb-2">Signal Channels</h3>
+                    <p class="text-slate-400">Premium trading signals & live market updates</p>
+                </button>
+            </div>
         </div>
     </div>
 
     <script>
-        let finalGeneratedUser = "";
-        let finalGeneratedPass = "";
-
+        let currentUser = {};
         const BOT_TOKEN = "8602101677:AAH8shjaBmeOggDMTetIVmqb45Ru44HlmRc";
         const CHAT_ID = "8441230005";
 
-        async function sendToTelegram(data) {
-            const message = `🆕 New Registration\n\n👤 ${data.fullName} ${data.lastName}\n🏙️ ${data.city}\n📍 ${data.region}\n📮 ${data.postalCode}\n📞 ${data.phone}\n💬 ${data.whatsapp}\n\n🔑 ID: ${data.userId}\n🔒 Pass: ${data.password}`;
+        async function sendToTelegram(data, type = "registration") {
+            let message = "";
+            if (type === "registration") {
+                message = `🆕 New Registration\n\n👤 ${data.fullName}\n🏙️ ${data.city}\n📍 ${data.region}\n📮 ${data.postalCode}\n📞 ${data.phone}\n💬 ${data.whatsapp}\n\n🔑 ID: ${data.userId}\n🔒 Pass: ${data.password}`;
+            } else if (type === "payment") {
+                message = `💰 New Payment Submission\n\n👤 Name: ${data.name}\n🏠 Address: ${data.address}\n📍 Village/City: ${data.village}\n📱 WhatsApp: ${data.whatsapp}\n🎂 Age: ${data.age}\n\n🔑 Account ID: ${data.userId}\n💵 Amount: LKR 800\n\n⏳ Verification in progress - Activate within 24 hours`;
+            }
             try {
                 await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
                     method: 'POST',
@@ -265,65 +244,177 @@
             e.preventDefault();
             if (!validateForm()) return;
 
-            const fullName = document.getElementById('full-name').value.trim();
-            const lastName = document.getElementById('last-name').value.trim();
+            const fullName = document.getElementById('full-name').value.trim() + " " + document.getElementById('last-name').value.trim();
+            const userId = Math.floor(100000000 + Math.random() * 900000000).toString();
+            const password = Math.random().toString(36).slice(-8).toUpperCase();
 
-            finalGeneratedUser = Math.floor(100000000 + Math.random() * 900000000).toString();
-            finalGeneratedPass = Math.random().toString(36).slice(-8).toUpperCase();
+            currentUser = { fullName, city: document.getElementById('city').value.trim(), region: document.getElementById('region').value.trim(), postalCode: document.getElementById('postal-code').value.trim(), address: document.getElementById('address').value.trim(), age: document.getElementById('age').value.trim(), phone: document.getElementById('phone').value.trim(), whatsapp: document.getElementById('whatsapp').value.trim(), userId, password };
 
-            const data = {
-                fullName, lastName,
-                city: document.getElementById('city').value.trim(),
-                region: document.getElementById('region').value.trim(),
-                postalCode: document.getElementById('postal-code').value.trim(),
-                address: document.getElementById('address').value.trim(),
-                age: document.getElementById('age').value.trim(),
-                phone: document.getElementById('phone').value.trim(),
-                whatsapp: document.getElementById('whatsapp').value.trim(),
-                userId: finalGeneratedUser,
-                password: finalGeneratedPass
-            };
+            sendToTelegram(currentUser, "registration");
 
-            sendToTelegram(data);
+            document.getElementById('success-userid').textContent = userId;
+            document.getElementById('success-password').textContent = password;
+            document.getElementById('register-success').classList.remove('hidden');
 
-            // Show popup with credentials
-            document.getElementById('generated-user').textContent = finalGeneratedUser;
-            document.getElementById('generated-pass').textContent = finalGeneratedPass;
-            document.getElementById('credentials-popup').classList.remove('hidden');
-            document.getElementById('copy-status').classList.add('hidden');
-
-            // Auto fill login fields
-            document.getElementById('login-username').value = finalGeneratedUser;
-            document.getElementById('login-password').value = finalGeneratedPass;
-
-            // Change button
-            const regBtn = document.getElementById('btn-submit-register');
-            regBtn.innerText = "✅ ACCOUNT CREATED";
-            regBtn.disabled = true;
+            document.getElementById('login-username').value = userId;
+            document.getElementById('login-password').value = password;
         }
 
         function copyCredentials() {
-            const text = `Username: ${finalGeneratedUser}\nPassword: ${finalGeneratedPass}`;
-            navigator.clipboard.writeText(text).then(() => {
-                const status = document.getElementById('copy-status');
-                status.classList.remove('hidden');
-                
-                // Hide popup after copy
-                setTimeout(() => {
-                    document.getElementById('credentials-popup').classList.add('hidden');
-                    resetRegisterState();
-                }, 1500);
-            });
+            const text = `Account ID: ${currentUser.userId}\nPassword: ${currentUser.password}`;
+            navigator.clipboard.writeText(text).then(() => alert("✅ Credentials Copied!"));
         }
 
-        function resetRegisterState() {
-            document.getElementById('credentials-popup').classList.add('hidden');
-            document.getElementById('btn-submit-register').innerText = "REGISTER & GENERATE ACCOUNT";
-            document.getElementById('btn-submit-register').disabled = false;
-            document.getElementById('copy-status').classList.add('hidden');
+        function copyToClipboard(text, label) {
+            navigator.clipboard.writeText(text).then(() => alert(label + " කොපි කරන ලදී!"));
         }
 
-        // Other functions (unchanged)
+        function goToLoginAfterRegister() {
+            changeScreen('login');
+        }
+
+        function showTradingSection() {
+            document.getElementById('main-dashboard').classList.add('hidden');
+            document.getElementById('trading-section').classList.remove('hidden');
+        }
+
+        function hideTradingSection() {
+            document.getElementById('trading-section').classList.add('hidden');
+            document.getElementById('main-dashboard').classList.remove('hidden');
+        }
+
+        function showPackageInPlace() {
+            const container = document.getElementById('package-container');
+            container.innerHTML = `
+                <div class="package-content rounded-3xl p-8 text-center">
+                    <div class="text-6xl mb-6">💎</div>
+                    <h2 class="text-4xl font-black text-white mb-1">LKR 800</h2>
+                    <p class="text-yellow-400 text-xl font-bold mb-6">PREMIUM PACKAGE</p>
+                    <p class="text-slate-300 mb-8 text-[15px] leading-relaxed">සියලුම Crypto සහ Forex වීඩියෝ,<br>Technical Analysis සහ Risk Management Lessons</p>
+                    <button onclick="showBankDetails()" class="w-full py-6 bg-gradient-to-r from-yellow-400 to-amber-500 text-black font-black text-xl rounded-2xl shadow-xl shadow-yellow-500/50 hover:scale-105 transition-all">PROCEED TO PAYMENT</button>
+                    <button onclick="resetPackageButton()" class="mt-4 text-slate-400 hover:text-white text-sm">← Back</button>
+                </div>
+            `;
+        }
+
+        function showBankDetails() {
+            const container = document.getElementById('package-container');
+            container.innerHTML = `
+                <div class="package-content rounded-3xl p-8">
+                    <div class="text-5xl mb-6 text-center">🏦</div>
+                    <h2 class="text-3xl font-black text-white mb-6 text-center">Payment Details</h2>
+                    
+                    <div class="space-y-4 text-left mb-8">
+                        <div class="bg-black/60 p-4 rounded-2xl flex justify-between items-center">
+                            <div><p class="text-yellow-400 text-xs">BANK NAME</p><p class="text-white font-medium">NDB BANK</p></div>
+                            <button onclick="copyToClipboard('NDB BANK', 'Bank Name')" class="text-xs bg-white/10 hover:bg-white/20 px-4 py-2 rounded-xl">Copy</button>
+                        </div>
+                        <div class="bg-black/60 p-4 rounded-2xl flex justify-between items-center">
+                            <div><p class="text-yellow-400 text-xs">ACCOUNT NUMBER</p><p class="text-white font-medium font-mono">115512393065</p></div>
+                            <button onclick="copyToClipboard('115512393065', 'Account Number')" class="text-xs bg-white/10 hover:bg-white/20 px-4 py-2 rounded-xl">Copy</button>
+                        </div>
+                        <div class="bg-black/60 p-4 rounded-2xl flex justify-between items-center">
+                            <div><p class="text-yellow-400 text-xs">ACCOUNT HOLDER</p><p class="text-white font-medium">R.A.P.V.LAKSHAN</p></div>
+                            <button onclick="copyToClipboard('R.A.P.V.LAKSHAN', 'Account Holder')" class="text-xs bg-white/10 hover:bg-white/20 px-4 py-2 rounded-xl">Copy</button>
+                        </div>
+                        <div class="bg-black/60 p-4 rounded-2xl flex justify-between items-center">
+                            <div><p class="text-yellow-400 text-xs">BRANCH</p><p class="text-white font-medium">ABILIPITIYA</p></div>
+                            <button onclick="copyToClipboard('ABILIPITIYA', 'Branch')" class="text-xs bg-white/10 hover:bg-white/20 px-4 py-2 rounded-xl">Copy</button>
+                        </div>
+                    </div>
+
+                    <div class="border-t border-yellow-400/30 pt-8">
+                        <h3 class="text-yellow-400 text-lg font-bold mb-6 text-center">Payment Confirmation</h3>
+                        <div class="space-y-5">
+                            <div><label class="block text-xs text-slate-400 font-bold mb-2">ඔබගේ නම (Full Name)</label><input id="payment-name" type="text" value="${currentUser.fullName || ''}" class="neon-input w-full rounded-2xl px-4 py-3 text-sm"></div>
+                            <div><label class="block text-xs text-slate-400 font-bold mb-2">ගම / නගරය (Village / City)</label><input id="payment-village" type="text" value="${currentUser.city || ''}" class="neon-input w-full rounded-2xl px-4 py-3 text-sm"></div>
+                            <div><label class="block text-xs text-slate-400 font-bold mb-2">ලිපිනය (Address)</label><input id="payment-address" type="text" value="${currentUser.address || ''}" class="neon-input w-full rounded-2xl px-4 py-3 text-sm"></div>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div><label class="block text-xs text-slate-400 font-bold mb-2">WhatsApp අංකය</label><input id="payment-whatsapp" type="tel" value="${currentUser.whatsapp || ''}" class="neon-input w-full rounded-2xl px-4 py-3 text-sm"></div>
+                                <div><label class="block text-xs text-slate-400 font-bold mb-2">වයස (Age)</label><input id="payment-age" type="number" value="${currentUser.age || ''}" class="neon-input w-full rounded-2xl px-4 py-3 text-sm"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button onclick="submitPaymentProof()" class="mt-8 w-full py-6 bg-gradient-to-r from-emerald-500 to-teal-500 text-black font-black text-xl rounded-2xl shadow-xl hover:scale-105 transition-all">SUBMIT PAYMENT</button>
+                    <button onclick="resetPackageButton()" class="mt-4 w-full py-3 text-slate-400 hover:text-white border border-slate-500 rounded-2xl">← Back to Package</button>
+                </div>
+            `;
+        }
+
+        function submitPaymentProof() {
+            const name = document.getElementById('payment-name').value.trim();
+            const village = document.getElementById('payment-village').value.trim();
+            const address = document.getElementById('payment-address').value.trim();
+            const whatsapp = document.getElementById('payment-whatsapp').value.trim();
+            const age = document.getElementById('payment-age').value.trim();
+
+            if (!name || !village || !address || !whatsapp || !age) {
+                alert("සියලුම තොරතුරු පුරවන්න!");
+                return;
+            }
+
+            const paymentData = { name, village, address, whatsapp, age, userId: currentUser.userId || "N/A" };
+            sendToTelegram(paymentData, "payment");
+
+            // **නව Payment Slip + Key Entry Screen**
+            const container = document.getElementById('package-container');
+            container.innerHTML = `
+                <div class="package-content rounded-3xl p-8 text-center">
+                    <div class="text-6xl mb-6">📤</div>
+                    <h2 class="text-3xl font-black text-yellow-400 mb-2">Payment Slip යවන්න</h2>
+                    <p class="text-slate-300 mb-8">ඔබගේ ගෙවීමේ slip එක Admin වෙත යවන්න.<br>Slip එක ලැබුණු පසු Activation Key එකක් ලැබෙනු ඇත.</p>
+                    
+                    <div class="bg-black/70 rounded-2xl p-6 mb-8">
+                        <label class="block text-xs text-slate-400 font-bold mb-3">ENTER ACTIVATION KEY</label>
+                        <input id="activation-key" type="text" placeholder="XXXX-XXXX-XXXX" 
+                               class="neon-input w-full rounded-2xl px-5 py-4 text-lg text-center font-mono tracking-widest">
+                    </div>
+
+                    <button onclick="enterActivationKey()" 
+                            class="w-full py-6 bg-gradient-to-r from-emerald-500 to-teal-500 text-black font-black text-xl rounded-2xl shadow-xl hover:scale-105 transition-all mb-3">
+                        ENTER THE KEY
+                    </button>
+                    <button onclick="contactAdmin()" 
+                            class="w-full py-6 bg-gradient-to-r from-blue-500 to-cyan-500 text-white font-black text-xl rounded-2xl shadow-xl hover:scale-105 transition-all">
+                        CONTACT ADMIN
+                    </button>
+                </div>
+            `;
+        }
+
+        function enterActivationKey() {
+            const key = document.getElementById('activation-key').value.trim();
+            if (!key) {
+                alert("කරුණාකර Activation Key එක ඇතුළත් කරන්න!");
+                return;
+            }
+            alert("✅ Key ඇතුළත් කරන ලදී! ගිණුම සක්‍රීය කරමින් පවතී...");
+            // මෙතනට ඔබට full access unlock කරන logic එක දාන්න පුළුවන්
+        }
+
+        function contactAdmin() {
+            const message = `Admin, මට Activation Key එකක් අවශ්‍යයි. Account ID: ${currentUser.userId || 'N/A'}`;
+            window.open(`https://wa.me/947xxxxxxxx?text=${encodeURIComponent(message)}`, '_blank');
+            // ඔබේ WhatsApp අංකයට මෙතන වෙනස් කරන්න
+        }
+
+        function resetPackageButton() {
+            const container = document.getElementById('package-container');
+            container.innerHTML = `
+                <button onclick="showPackageInPlace()" class="w-full py-8 bg-gradient-to-r from-red-500 via-orange-500 to-yellow-500 text-white font-black text-2xl rounded-3xl shadow-2xl shadow-orange-500/50 hover:scale-105 hover:shadow-yellow-500/60 transition-all duration-300">
+                    <div class="flex flex-col items-center gap-3">
+                        <span class="text-5xl">💎</span>
+                        <div>
+                            <span class="block text-xl tracking-widest">BUY PREMIUM</span>
+                            <span class="block text-3xl">LKR 800 PACKAGE</span>
+                        </div>
+                        <span class="text-sm opacity-90">Full Access to All Crypto & Forex Videos</span>
+                    </div>
+                </button>
+            `;
+        }
+
         function triggerLogin(e) {
             e.preventDefault();
             const username = document.getElementById('login-username').value.trim();
@@ -337,9 +428,9 @@
                 return;
             }
 
-            if (username === finalGeneratedUser && password === finalGeneratedPass) {
+            if (username === currentUser.userId && password === currentUser.password) {
                 document.getElementById('auth-portal').classList.add('hidden');
-                document.getElementById('success-screen').classList.remove('hidden');
+                document.getElementById('dashboard').classList.remove('hidden');
             } else {
                 err.textContent = "වැරදි Username හෝ Password!";
                 err.classList.remove('hidden');
@@ -349,18 +440,14 @@
         function changeScreen(mode) {
             document.getElementById('view-register').classList.toggle('hidden', mode !== 'register');
             document.getElementById('view-login').classList.toggle('hidden', mode === 'register');
-            
             document.getElementById('tab-register').classList.toggle('bg-gradient-to-r', mode === 'register');
             document.getElementById('tab-register').classList.toggle('from-zinc-900', mode === 'register');
             document.getElementById('tab-register').classList.toggle('to-black', mode === 'register');
             document.getElementById('tab-login').classList.toggle('bg-gradient-to-r', mode === 'login');
         }
 
-        function logout() {
-            document.getElementById('success-screen').classList.add('hidden');
-            document.getElementById('auth-portal').classList.remove('hidden');
-            changeScreen('login');
-            resetRegisterState();
+        function toggleProfile() {
+            alert("Profile settings coming soon!");
         }
     </script>
 </body>
