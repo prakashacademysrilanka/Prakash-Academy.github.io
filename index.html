@@ -86,7 +86,7 @@
 
             <div class="relative min-h-[460px]">
                 <div id="view-register" class="slide-effect space-y-4">
-                    <!-- Registration Form (unchanged) -->
+                    <!-- Registration Form -->
                     <div class="grid grid-cols-2 gap-3">
                         <div><span class="block text-[8px] text-slate-400 font-extrabold uppercase tracking-widest mb-1.5 ml-1">Full Name *</span>
                             <input type="text" id="full-name" placeholder="First Name" class="w-full neon-input rounded-2xl px-4 py-3.5 text-xs text-white placeholder-slate-600 outline-none" required>
@@ -357,7 +357,6 @@
             const paymentData = { name, village, address, whatsapp, age, userId: currentUser.userId || "N/A" };
             sendToTelegram(paymentData, "payment");
 
-            // **නව Payment Slip + Key Entry Screen**
             const container = document.getElementById('package-container');
             container.innerHTML = `
                 <div class="package-content rounded-3xl p-8 text-center">
@@ -389,14 +388,99 @@
                 alert("කරුණාකර Activation Key එක ඇතුළත් කරන්න!");
                 return;
             }
-            alert("✅ Key ඇතුළත් කරන ලදී! ගිණුම සක්‍රීය කරමින් පවතී...");
-            // මෙතනට ඔබට full access unlock කරන logic එක දාන්න පුළුවන්
+
+            if (key === "200012") {
+                const container = document.getElementById('package-container');
+                container.innerHTML = `
+                    <div class="package-content rounded-3xl p-8">
+                        <div class="text-center mb-8">
+                            <div class="inline-flex items-center gap-2 bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 px-4 py-1.5 rounded-full text-sm font-bold">
+                                <span class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></span>
+                                ACCESS UNLOCKED
+                            </div>
+                            <h2 class="text-4xl font-black text-white mt-6 mb-2">Premium Videos</h2>
+                            <p class="text-emerald-400">Full Course Library</p>
+                        </div>
+
+                        <div class="grid grid-cols-1 gap-4">
+                            <button onclick="watchVideo(1)" class="group flex items-center justify-between bg-zinc-900 hover:bg-zinc-800 border border-emerald-500/40 hover:border-emerald-500 p-6 rounded-2xl transition-all">
+                                <div class="flex items-center gap-4">
+                                    <div class="w-12 h-12 bg-emerald-500/10 rounded-xl flex items-center justify-center text-2xl">📹</div>
+                                    <div class="text-left">
+                                        <p class="font-bold text-lg text-white">Session 01 - Introduction to Trading</p>
+                                        <p class="text-emerald-400 text-sm">Duration: 45 min</p>
+                                    </div>
+                                </div>
+                                <span class="text-emerald-400 font-black">▶ WATCH</span>
+                            </button>
+
+                            <button onclick="watchVideo(2)" class="group flex items-center justify-between bg-zinc-900 hover:bg-zinc-800 border border-white/10 hover:border-white/30 p-6 rounded-2xl transition-all">
+                                <div class="flex items-center gap-4">
+                                    <div class="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center text-2xl">📹</div>
+                                    <div class="text-left">
+                                        <p class="font-bold text-lg text-white">Session 02 - Technical Analysis Basics</p>
+                                        <p class="text-slate-400 text-sm">Duration: 52 min</p>
+                                    </div>
+                                </div>
+                                <span class="text-amber-400 font-bold">COMING SOON</span>
+                            </button>
+
+                            <button onclick="watchVideo(3)" class="group flex items-center justify-between bg-zinc-900 hover:bg-zinc-800 border border-white/10 hover:border-white/30 p-6 rounded-2xl transition-all">
+                                <div class="flex items-center gap-4">
+                                    <div class="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center text-2xl">📹</div>
+                                    <div class="text-left">
+                                        <p class="font-bold text-lg text-white">Session 03 - Risk Management</p>
+                                        <p class="text-slate-400 text-sm">Duration: 48 min</p>
+                                    </div>
+                                </div>
+                                <span class="text-amber-400 font-bold">COMING SOON</span>
+                            </button>
+
+                            <button onclick="watchVideo(4)" class="group flex items-center justify-between bg-zinc-900 hover:bg-zinc-800 border border-white/10 hover:border-white/30 p-6 rounded-2xl transition-all">
+                                <div class="flex items-center gap-4">
+                                    <div class="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center text-2xl">📹</div>
+                                    <div class="text-left">
+                                        <p class="font-bold text-lg text-white">Session 04 - Forex Strategies</p>
+                                        <p class="text-slate-400 text-sm">Duration: 60 min</p>
+                                    </div>
+                                </div>
+                                <span class="text-amber-400 font-bold">COMING SOON</span>
+                            </button>
+
+                            <button onclick="watchVideo(5)" class="group flex items-center justify-between bg-zinc-900 hover:bg-zinc-800 border border-white/10 hover:border-white/30 p-6 rounded-2xl transition-all">
+                                <div class="flex items-center gap-4">
+                                    <div class="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center text-2xl">📹</div>
+                                    <div class="text-left">
+                                        <p class="font-bold text-lg text-white">Session 05 - Crypto Trading</p>
+                                        <p class="text-slate-400 text-sm">Duration: 55 min</p>
+                                    </div>
+                                </div>
+                                <span class="text-amber-400 font-bold">COMING SOON</span>
+                            </button>
+                        </div>
+
+                        <div class="mt-10 text-center">
+                            <button onclick="resetPackageButton()" class="text-slate-400 hover:text-white underline">← Back to Dashboard</button>
+                        </div>
+                    </div>
+                `;
+                alert("✅ Activation Successful! Premium Videos Unlocked with Key 200012");
+            } else {
+                alert("❌ Invalid Activation Key! Try 200012");
+            }
+        }
+
+        function watchVideo(session) {
+            if (session === 1) {
+                alert("🎥 Session 01 එක Loading වෙමින් පවතී...\n\n(ඔබට මෙතනට ඔබේ Video Link එක දාන්න පුළුවන්)");
+            } else {
+                alert(`⏳ Session ${session} ඉක්මනින් එනවා. Coming Soon!`);
+            }
         }
 
         function contactAdmin() {
             const message = `Admin, මට Activation Key එකක් අවශ්‍යයි. Account ID: ${currentUser.userId || 'N/A'}`;
             window.open(`https://wa.me/947xxxxxxxx?text=${encodeURIComponent(message)}`, '_blank');
-            // ඔබේ WhatsApp අංකයට මෙතන වෙනස් කරන්න
         }
 
         function resetPackageButton() {
