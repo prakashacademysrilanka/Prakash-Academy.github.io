@@ -25,17 +25,19 @@
             position: absolute;
             top: -50%; left: -50%; width: 200%; height: 200%;
             background: radial-gradient(circle, rgba(239, 68, 68, 0.12) 0%, rgba(185, 28, 28, 0.06) 50%, transparent 100%);
-            animation: rotateGlow 20s linear infinite;
+            animation: rotateGlow 25s linear infinite;
             z-index: 0;
-            pointer-events: none;
         }
         @keyframes rotateGlow { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-        .cyber-card {
+        .cyber-card, .package-content {
             background: rgba(20, 20, 20, 0.85);
             backdrop-filter: blur(25px);
             border: 1px solid rgba(255, 255, 255, 0.08);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.9), inset 0 1px 1px rgba(255, 255, 255, 0.08);
+        }
+        .package-content {
+            border: 2px solid rgba(234, 179, 8, 0.6);
+            box-shadow: 0 0 60px -10px rgba(234, 179, 8, 0.7);
         }
 
         .neon-input {
@@ -45,14 +47,29 @@
         }
         .neon-input:focus-within {
             border-color: #ef4444;
-            background: rgba(30, 30, 30, 0.9);
             box-shadow: 0 0 20px rgba(239, 68, 68, 0.3);
         }
 
-        .package-content {
-            background: linear-gradient(145deg, #1f1f1f, #111827);
-            border: 2px solid rgba(234, 179, 8, 0.6);
-            box-shadow: 0 0 60px -10px rgba(234, 179, 8, 0.7);
+        .section {
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        .section.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .button-hover:hover {
+            transform: translateY(-4px) scale(1.03);
+        }
+
+        #game-frame {
+            width: 100%;
+            height: 85vh;
+            border: none;
+            border-radius: 1.5rem;
+            background: #000;
         }
     </style>
 </head>
@@ -72,215 +89,305 @@
                     <h1 class="text-5xl font-black italic tracking-[-3px] text-white cyber-font">PRAKASH</h1>
                     <h1 class="text-5xl font-black italic tracking-[-3px] text-red-500 cyber-font">ACADEMY</h1>
                 </div>
-                <p class="text-red-400/80 text-xs tracking-[3px] font-bold">PREMIUM LEARNING</p>
             </div>
 
             <div class="grid grid-cols-2 bg-black/60 border border-white/10 p-1 rounded-2xl mb-8 font-bold text-xs text-center">
-                <button onclick="changeScreen('register')" id="tab-register" class="py-3 rounded-xl bg-gradient-to-r from-zinc-900 to-black text-white shadow border border-white/10 transition-all">
-                    QUICK SIGNUP
-                </button>
-                <button onclick="changeScreen('login')" id="tab-login" class="py-3 rounded-xl text-slate-400 hover:text-white transition-all">
-                    SECURE LOGIN
-                </button>
+                <button onclick="changeScreen('register')" id="tab-register" class="py-3 rounded-xl bg-gradient-to-r from-zinc-900 to-black text-white button-hover">QUICK SIGNUP</button>
+                <button onclick="changeScreen('login')" id="tab-login" class="py-3 rounded-xl text-slate-400 hover:text-white button-hover">SECURE LOGIN</button>
             </div>
 
-            <div class="relative min-h-[460px]">
-                <div id="view-register" class="slide-effect space-y-4">
-                    <!-- Registration Form -->
-                    <div class="grid grid-cols-2 gap-3">
-                        <div><span class="block text-[8px] text-slate-400 font-extrabold uppercase tracking-widest mb-1.5 ml-1">Full Name *</span>
-                            <input type="text" id="full-name" placeholder="First Name" class="w-full neon-input rounded-2xl px-4 py-3.5 text-xs text-white placeholder-slate-600 outline-none" required>
-                        </div>
-                        <div><span class="block text-[8px] text-slate-400 font-extrabold uppercase tracking-widest mb-1.5 ml-1">Last Name *</span>
-                            <input type="text" id="last-name" placeholder="Last Name" class="w-full neon-input rounded-2xl px-4 py-3.5 text-xs text-white placeholder-slate-600 outline-none" required>
-                        </div>
+            <div class="relative min-h-[380px]">
+                <div id="view-register" class="space-y-6">
+                    <div><span class="block text-[8px] text-slate-400 font-extrabold uppercase tracking-widest mb-1.5 ml-1">Full Name</span>
+                        <input type="text" id="full-name" placeholder="ඔබේ නම" class="w-full neon-input rounded-2xl px-4 py-3.5 text-sm text-white">
                     </div>
-
-                    <div><span class="block text-[8px] text-slate-400 font-extrabold uppercase tracking-widest mb-1.5 ml-1">City *</span>
-                        <input type="text" id="city" placeholder="Your City" class="w-full neon-input rounded-2xl px-4 py-3.5 text-xs text-white placeholder-slate-600 outline-none" required>
+                    <div><span class="block text-[8px] text-slate-400 font-extrabold uppercase tracking-widest mb-1.5 ml-1">WhatsApp Number</span>
+                        <input type="tel" id="whatsapp" placeholder="+94 XX XXX XXXX" class="w-full neon-input rounded-2xl px-4 py-3.5 text-sm text-white">
                     </div>
-
-                    <div class="grid grid-cols-2 gap-3">
-                        <div><span class="block text-[8px] text-slate-400 font-extrabold uppercase tracking-widest mb-1.5 ml-1">Region *</span>
-                            <input type="text" id="region" placeholder="Province / State" class="w-full neon-input rounded-2xl px-4 py-3.5 text-xs text-white placeholder-slate-600 outline-none" required>
-                        </div>
-                        <div><span class="block text-[8px] text-slate-400 font-extrabold uppercase tracking-widest mb-1.5 ml-1">Postal Code *</span>
-                            <input type="tel" id="postal-code" maxlength="10" placeholder="Postal Code" class="w-full neon-input rounded-2xl px-4 py-3.5 text-xs text-white placeholder-slate-600 outline-none" required>
-                        </div>
-                    </div>
-
-                    <div><span class="block text-[8px] text-slate-400 font-extrabold uppercase tracking-widest mb-1.5 ml-1">Address *</span>
-                        <input type="text" id="address" placeholder="Full Address" class="w-full neon-input rounded-2xl px-4 py-3.5 text-xs text-white placeholder-slate-600 outline-none" required>
-                    </div>
-
-                    <div class="grid grid-cols-2 gap-3">
-                        <div><span class="block text-[8px] text-slate-400 font-extrabold uppercase tracking-widest mb-1.5 ml-1">Age *</span>
-                            <input type="number" id="age" min="1" max="100" placeholder="Your Age" class="w-full neon-input rounded-2xl px-4 py-3.5 text-xs text-white placeholder-slate-600 outline-none" required>
-                        </div>
-                        <div><span class="block text-[8px] text-slate-400 font-extrabold uppercase tracking-widest mb-1.5 ml-1">Phone Number *</span>
-                            <input type="tel" id="phone" maxlength="15" placeholder="+94 XX XXX XXXX" class="w-full neon-input rounded-2xl px-4 py-3.5 text-xs text-white placeholder-slate-600 outline-none" required>
-                        </div>
-                    </div>
-
-                    <div><span class="block text-[8px] text-slate-400 font-extrabold uppercase tracking-widest mb-1.5 ml-1">Whatsapp Number *</span>
-                        <input type="tel" id="whatsapp" maxlength="15" placeholder="+94 XX XXX XXXX" class="w-full neon-input rounded-2xl px-4 py-3.5 text-xs text-white placeholder-slate-600 outline-none" required>
-                    </div>
-
-                    <button onclick="generateAccountDirectly(event)" class="w-full py-4 bg-gradient-to-r from-red-500 to-red-600 text-white font-black text-xs uppercase tracking-widest rounded-2xl">
-                        REGISTER & GENERATE ACCOUNT
-                    </button>
-
-                    <div id="register-success" class="hidden success-box rounded-3xl p-6 mt-6 text-center">
-                        <p class="text-green-400 text-sm font-bold mb-4">✅ ACCOUNT CREATED SUCCESSFULLY!</p>
-                        <div class="bg-black/50 rounded-2xl p-5 text-left space-y-4">
-                            <div class="flex justify-between"><span class="text-slate-400">Account ID</span><span id="success-userid" class="font-mono text-red-400 font-bold"></span></div>
-                            <div class="flex justify-between"><span class="text-slate-400">Password</span><span id="success-password" class="font-mono text-white font-bold"></span></div>
-                        </div>
-                        <button onclick="copyCredentials()" class="mt-4 w-full py-3 bg-white text-black rounded-2xl font-bold text-sm">📋 COPY CREDENTIALS</button>
-                        <button onclick="goToLoginAfterRegister()" class="mt-3 w-full py-3 bg-red-500/10 text-red-400 rounded-2xl font-bold">CONTINUE TO LOGIN →</button>
-                    </div>
+                    <button onclick="generateAccountDirectly(event)" class="w-full py-4 bg-gradient-to-r from-red-500 to-red-600 text-white font-black text-xs uppercase tracking-widest rounded-2xl button-hover">REGISTER & GENERATE ACCOUNT</button>
                 </div>
 
-                <div id="view-login" class="slide-effect space-y-4 hidden">
+                <div id="view-login" class="space-y-6 hidden">
                     <div>
-                        <label class="block text-[8px] text-slate-400 font-black uppercase tracking-widest mb-2 ml-1">Account ID (9 Digits)</label>
-                        <input type="text" id="login-username" placeholder="e.g. 582948104" class="w-full neon-input rounded-2xl px-4 py-4 text-xs text-white placeholder-slate-600 outline-none font-semibold">
+                        <label class="block text-[8px] text-slate-400 font-black uppercase tracking-widest mb-2 ml-1">Account ID</label>
+                        <input type="text" id="login-username" placeholder="Account ID එක ඇතුළත් කරන්න" class="w-full neon-input rounded-2xl px-4 py-4 text-sm text-white">
                     </div>
                     <div>
                         <label class="block text-[8px] text-slate-400 font-black uppercase tracking-widest mb-2 ml-1">Password</label>
-                        <input type="password" id="login-password" placeholder="••••••••" class="w-full neon-input rounded-2xl px-4 py-4 text-xs text-white placeholder-slate-600 outline-none">
+                        <input type="password" id="login-password" placeholder="Password එක ඇතුළත් කරන්න" class="w-full neon-input rounded-2xl px-4 py-4 text-sm text-white">
                     </div>
-
-                    <div id="login-error" class="hidden text-red-400 bg-red-950/40 border border-red-500/30 text-xs text-center p-3 rounded-xl"></div>
-
-                    <button onclick="triggerLogin(event)" class="w-full py-4 bg-white text-black font-black text-xs uppercase tracking-widest rounded-2xl">
-                        SECURE LOGIN
-                    </button>
+                    <button onclick="triggerLogin()" class="w-full py-4 bg-white text-black font-black text-xs uppercase tracking-widest rounded-2xl button-hover">SECURE LOGIN</button>
                 </div>
             </div>
         </div>
     </div>
 
     <!-- Dashboard -->
-    <div id="dashboard" class="hidden w-full max-w-5xl z-10">
+    <div id="dashboard" class="section hidden w-full max-w-5xl z-10 active">
         <div class="flex justify-between items-center mb-8 px-6 py-4 bg-black/60 border border-white/10 rounded-3xl">
             <h1 class="text-3xl font-black text-white cyber-font">PRAKASH ACADEMY</h1>
-            <button onclick="toggleProfile()" class="w-10 h-10 bg-red-500 hover:bg-red-600 rounded-2xl flex items-center justify-center text-white font-bold text-xl transition-all">👤</button>
+            <button onclick="toggleProfile()" class="w-10 h-10 bg-red-500 hover:bg-red-600 rounded-2xl flex items-center justify-center text-white font-bold text-xl button-hover">👤</button>
         </div>
 
         <div class="cyber-card rounded-3xl p-10">
-            <h2 class="text-4xl font-black text-white mb-8 text-center">Welcome Back, Trader!</h2>
+            <h2 class="text-4xl font-black text-white mb-10 text-center">Welcome Back, Trader!</h2>
             
-            <div id="trading-section" class="hidden">
-                <h3 class="text-3xl font-bold text-white mb-8 text-center cyber-font">TRADING LEARN</h3>
-                
-                <div id="package-container" class="max-w-md mx-auto">
-                    <button onclick="showPackageInPlace()" class="w-full py-8 bg-gradient-to-r from-red-500 via-orange-500 to-yellow-500 text-white font-black text-2xl rounded-3xl shadow-2xl shadow-orange-500/50 hover:scale-105 hover:shadow-yellow-500/60 transition-all duration-300">
-                        <div class="flex flex-col items-center gap-3">
-                            <span class="text-5xl">💎</span>
-                            <div>
-                                <span class="block text-xl tracking-widest">BUY PREMIUM</span>
-                                <span class="block text-3xl">LKR 800 PACKAGE</span>
-                            </div>
-                            <span class="text-sm opacity-90">Full Access to All Crypto & Forex Videos</span>
-                        </div>
-                    </button>
-                </div>
-
-                <div class="text-center mt-8">
-                    <button onclick="hideTradingSection()" class="text-slate-400 hover:text-white underline">← Back to Dashboard</button>
-                </div>
-            </div>
-
-            <div id="main-dashboard" class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-2xl mx-auto">
-                <button onclick="showTradingSection()" class="group bg-gradient-to-br from-zinc-900 to-black border border-red-500/30 hover:border-red-500 p-8 rounded-3xl transition-all hover:scale-105">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+                <button onclick="showSection('trading-section')" class="group bg-gradient-to-br from-zinc-900 to-black border border-red-500/30 hover:border-red-500 p-8 rounded-3xl button-hover">
                     <div class="text-6xl mb-4">📚</div>
                     <h3 class="text-2xl font-black text-white mb-2">Trading Learn</h3>
-                    <p class="text-slate-400">Master technical analysis, risk management & strategies</p>
+                    <p class="text-slate-400">Master technical analysis & strategies</p>
                 </button>
 
-                <button onclick="alert('Signal Channels Coming Soon!')" class="group bg-gradient-to-br from-zinc-900 to-black border border-red-500/30 hover:border-red-500 p-8 rounded-3xl transition-all hover:scale-105">
+                <button onclick="alert('Signal Channels Coming Soon!')" class="group bg-gradient-to-br from-zinc-900 to-black border border-red-500/30 hover:border-red-500 p-8 rounded-3xl button-hover">
                     <div class="text-6xl mb-4">📡</div>
                     <h3 class="text-2xl font-black text-white mb-2">Signal Channels</h3>
-                    <p class="text-slate-400">Premium trading signals & live market updates</p>
+                    <p class="text-slate-400">Premium trading signals</p>
                 </button>
+
+                <button onclick="showSection('betting-service')" class="group bg-gradient-to-br from-zinc-900 to-black border border-amber-500/50 hover:border-amber-500 p-8 rounded-3xl button-hover">
+                    <div class="text-6xl mb-4">🎰</div>
+                    <h3 class="text-2xl font-black text-white mb-2">Betting Site Service</h3>
+                    <p class="text-slate-400">Register & Get Promo Codes</p>
+                </button>
+
+                <button onclick="showSection('play-earn-section')" class="group bg-gradient-to-br from-zinc-900 to-black border border-emerald-500/50 hover:border-emerald-500 p-8 rounded-3xl button-hover">
+                    <div class="text-6xl mb-4">💰</div>
+                    <h3 class="text-2xl font-black text-white mb-2">Play And Earn Money</h3>
+                    <p class="text-slate-400">Play Games & Earn Real Money</p>
+                </button>
+
+                <button onclick="showSection('contacts-section')" class="group bg-gradient-to-br from-zinc-900 to-black border border-blue-500/50 hover:border-blue-500 p-8 rounded-3xl button-hover">
+                    <div class="text-6xl mb-4">📞</div>
+                    <h3 class="text-2xl font-black text-white mb-2">Contacts</h3>
+                    <p class="text-slate-400">Get Support & Help</p>
+                </button>
+
+                <button onclick="showSection('questions-section')" class="group bg-gradient-to-br from-zinc-900 to-black border border-purple-500/50 hover:border-purple-500 p-8 rounded-3xl button-hover">
+                    <div class="text-6xl mb-4">❓</div>
+                    <h3 class="text-2xl font-black text-white mb-2">Questions</h3>
+                    <p class="text-slate-400">FAQ & Common Questions</p>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Trading Learn Section -->
+    <div id="trading-section" class="section hidden w-full max-w-5xl z-10">
+        <div class="flex justify-between items-center mb-8 px-6 py-4 bg-black/60 border border-white/10 rounded-3xl">
+            <h1 onclick="backToHome()" class="text-3xl font-black text-white cyber-font cursor-pointer hover:text-red-400">← Home</h1>
+            <h2 class="text-3xl font-bold text-red-400 cyber-font">TRADING LEARN</h2>
+        </div>
+        <div class="cyber-card rounded-3xl p-10">
+            <div id="package-container" class="max-w-md mx-auto"></div>
+        </div>
+    </div>
+
+    <!-- Play And Earn Section -->
+    <div id="play-earn-section" class="section hidden w-full max-w-5xl z-10">
+        <div class="flex justify-between items-center mb-8 px-6 py-4 bg-black/60 border border-white/10 rounded-3xl">
+            <h1 onclick="backToHome()" class="text-3xl font-black text-white cyber-font cursor-pointer hover:text-red-400">← Home</h1>
+            <h2 class="text-3xl font-bold text-emerald-400 cyber-font">PLAY & EARN MONEY</h2>
+        </div>
+        <div class="cyber-card rounded-3xl p-10">
+            <div class="text-center mb-10">
+                <div class="text-7xl mb-6">🎮💰</div>
+                <h2 class="text-5xl font-black text-white mb-3">Play Games & Earn</h2>
+                <p class="text-slate-300 text-lg">ජනප්‍රිය Games වලින් Real Money උපයන්න</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-3xl mx-auto">
+                <button onclick="playGame('Aviator')" class="flex items-center gap-4 bg-gradient-to-br from-zinc-900 to-black border border-emerald-500/40 hover:border-emerald-500 p-8 rounded-3xl button-hover">
+                    <span class="text-5xl">✈️</span>
+                    <div class="text-left"><h3 class="text-2xl font-black text-white">Aviator</h3><p class="text-emerald-400">High Multiplier Game</p></div>
+                </button>
+                <button onclick="playGame('Crash')" class="flex items-center gap-4 bg-gradient-to-br from-zinc-900 to-black border border-emerald-500/40 hover:border-emerald-500 p-8 rounded-3xl button-hover">
+                    <span class="text-5xl">💥</span>
+                    <div class="text-left"><h3 class="text-2xl font-black text-white">Crash</h3><p class="text-emerald-400">Fast Paced Multiplier</p></div>
+                </button>
+                <button onclick="playGame('Pinko')" class="flex items-center gap-4 bg-gradient-to-br from-zinc-900 to-black border border-emerald-500/40 hover:border-emerald-500 p-8 rounded-3xl button-hover">
+                    <span class="text-5xl">🎯</span>
+                    <div class="text-left"><h3 class="text-2xl font-black text-white">Pinko</h3><p class="text-emerald-400">Ball Drop Game</p></div>
+                </button>
+                <button onclick="playGame('Sky X')" class="flex items-center gap-4 bg-gradient-to-br from-zinc-900 to-black border border-emerald-500/40 hover:border-emerald-500 p-8 rounded-3xl button-hover">
+                    <span class="text-5xl">🌌</span>
+                    <div class="text-left"><h3 class="text-2xl font-black text-white">Sky X</h3><p class="text-emerald-400">Space Theme Multiplier</p></div>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Aviator Game Section -->
+    <div id="aviator-game-section" class="section hidden w-full max-w-6xl z-10">
+        <div class="flex justify-between items-center mb-8 px-6 py-4 bg-black/60 border border-white/10 rounded-3xl">
+            <h1 onclick="backToPlayEarn()" class="text-3xl font-black text-white cyber-font cursor-pointer hover:text-red-400">← Play & Earn</h1>
+            <h2 class="text-3xl font-bold text-emerald-400 cyber-font">AVIATOR GAME</h2>
+        </div>
+        <div class="cyber-card rounded-3xl p-6">
+            <iframe id="game-frame" src="https://prakashacademysrilanka.github.io/prakash-academy-aviator-signel-bot.github.io/" allowfullscreen></iframe>
+        </div>
+    </div>
+
+    <!-- Questions, Contacts, Betting Sections (Original) -->
+    <div id="questions-section" class="section hidden w-full max-w-5xl z-10">
+        <div class="flex justify-between items-center mb-8 px-6 py-4 bg-black/60 border border-white/10 rounded-3xl">
+            <h1 onclick="backToHome()" class="text-3xl font-black text-white cyber-font cursor-pointer hover:text-red-400">← Home</h1>
+            <h2 class="text-3xl font-bold text-purple-400 cyber-font">QUESTIONS</h2>
+        </div>
+        <div class="cyber-card rounded-3xl p-10">
+            <h3 class="text-2xl font-bold text-white mb-8 text-center">Common Questions & Answers</h3>
+            <div class="max-w-2xl mx-auto space-y-4 text-left">
+                <div class="bg-black/60 p-6 rounded-2xl">
+                    <p class="font-bold text-purple-400 mb-2">Q: Premium Package එකට කොහොමද ගෙවන්නේ?</p>
+                    <p class="text-slate-300">A: ඔබට ලැබුණු Bank Details භාවිතා කර ගෙවීම කරන්න. Slip එක යැවීමෙන් පසු Activation Key ලැබෙනවා.</p>
+                </div>
+                <div class="bg-black/60 p-6 rounded-2xl">
+                    <p class="font-bold text-purple-400 mb-2">Q: Play & Earn Games වලින් මුදල් ගන්න පුළුවන්ද?</p>
+                    <p class="text-slate-300">A: ඔව්. Minimum Withdrawal LKR 500. Game Agent සම්බන්ධ කරගන්න.</p>
+                </div>
+                <div class="bg-black/60 p-6 rounded-2xl">
+                    <p class="font-bold text-purple-400 mb-2">Q: Activation Key එක නැතිවුණොත්?</p>
+                    <p class="text-slate-300">A: Admin Contact එක භාවිතා කරන්න.</p>
+                </div>
+            </div>
+            <div class="text-center mt-10">
+                <button onclick="contactAdmin()" class="bg-purple-600 hover:bg-purple-700 px-8 py-3 rounded-2xl font-bold">Ask More Questions →</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="contacts-section" class="section hidden w-full max-w-5xl z-10">
+        <div class="flex justify-between items-center mb-8 px-6 py-4 bg-black/60 border border-white/10 rounded-3xl">
+            <h1 onclick="backToHome()" class="text-3xl font-black text-white cyber-font cursor-pointer hover:text-red-400">← Home</h1>
+            <h2 class="text-3xl font-bold text-blue-400 cyber-font">CONTACTS</h2>
+        </div>
+        <div class="cyber-card rounded-3xl p-12">
+            <div class="max-w-md mx-auto space-y-6">
+                <button onclick="contactAdmin()" class="w-full flex items-center justify-between bg-gradient-to-br from-zinc-900 to-black border border-blue-500/40 hover:border-blue-500 p-8 rounded-3xl button-hover">
+                    <div class="flex items-center gap-4"><span class="text-5xl">👨‍💼</span><div class="text-left"><h3 class="text-2xl font-black text-white">Admin Contact</h3><p class="text-slate-400">Main Support</p></div></div>
+                    <span class="text-blue-400 text-3xl">→</span>
+                </button>
+                <button onclick="contactGameAgent()" class="w-full flex items-center justify-between bg-gradient-to-br from-zinc-900 to-black border border-blue-500/40 hover:border-blue-500 p-8 rounded-3xl button-hover">
+                    <div class="flex items-center gap-4"><span class="text-5xl">🎮</span><div class="text-left"><h3 class="text-2xl font-black text-white">Game Agent Contact</h3><p class="text-slate-400">Play & Earn Support</p></div></div>
+                    <span class="text-blue-400 text-3xl">→</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="betting-service" class="section hidden w-full max-w-5xl z-10">
+        <div class="flex justify-between items-center mb-8 px-6 py-4 bg-black/60 border border-white/10 rounded-3xl">
+            <h1 onclick="backToHome()" class="text-3xl font-black text-white cyber-font cursor-pointer hover:text-red-400">← Home</h1>
+            <h2 class="text-2xl font-bold text-amber-400">Betting Site Service</h2>
+        </div>
+        <div class="cyber-card rounded-3xl p-10">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-2xl mx-auto">
+                <button onclick="showSection('betting-sites-list')" class="bg-gradient-to-br from-zinc-900 to-black border border-amber-500/40 hover:border-amber-500 p-8 rounded-3xl button-hover">
+                    <div class="text-5xl mb-4">🌐</div>
+                    <h3 class="text-2xl font-black text-white">Betting Sites</h3>
+                </button>
+                <button onclick="alert('Promo Codes Coming Soon!')" class="bg-gradient-to-br from-zinc-900 to-black border border-amber-500/40 hover:border-amber-500 p-8 rounded-3xl button-hover">
+                    <div class="text-5xl mb-4">🎟️</div>
+                    <h3 class="text-2xl font-black text-white">Promo Codes</h3>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="betting-sites-list" class="section hidden w-full max-w-5xl z-10">
+        <div class="flex justify-between items-center mb-8 px-6 py-4 bg-black/60 border border-white/10 rounded-3xl">
+            <h1 onclick="backToHome()" class="text-3xl font-black text-white cyber-font cursor-pointer hover:text-red-400">← Home</h1>
+            <h2 class="text-2xl font-bold text-amber-400">Betting Sites</h2>
+        </div>
+        <div class="cyber-card rounded-3xl p-10">
+            <h2 class="text-3xl font-black text-amber-400 mb-8 text-center">Register Videos</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-3xl mx-auto">
+                <button onclick="watchRegisterVideo('DBbet')" class="flex items-center gap-4 bg-zinc-900 hover:bg-zinc-800 border border-white/10 hover:border-amber-400 p-6 rounded-2xl button-hover">🎥 DBbet Register Video</button>
+                <button onclick="watchRegisterVideo('Melbet')" class="flex items-center gap-4 bg-zinc-900 hover:bg-zinc-800 border border-white/10 hover:border-amber-400 p-6 rounded-2xl button-hover">🎥 Melbet Register Video</button>
+                <button onclick="watchRegisterVideo('1Xbet')" class="flex items-center gap-4 bg-zinc-900 hover:bg-zinc-800 border border-white/10 hover:border-amber-400 p-6 rounded-2xl button-hover">🎥 1Xbet Register Video</button>
+                <button onclick="watchRegisterVideo('Coldbet')" class="flex items-center gap-4 bg-zinc-900 hover:bg-zinc-800 border border-white/10 hover:border-amber-400 p-6 rounded-2xl button-hover">🎥 Coldbet Register Video</button>
+                <button onclick="watchRegisterVideo('Luckypari')" class="flex items-center gap-4 bg-zinc-900 hover:bg-zinc-800 border border-white/10 hover:border-amber-400 p-6 rounded-2xl button-hover">🎥 Luckypari Register Video</button>
             </div>
         </div>
     </div>
 
     <script>
         let currentUser = {};
-        const BOT_TOKEN = "8602101677:AAH8shjaBmeOggDMTetIVmqb45Ru44HlmRc";
-        const CHAT_ID = "8441230005";
-
-        async function sendToTelegram(data, type = "registration") {
-            let message = "";
-            if (type === "registration") {
-                message = `🆕 New Registration\n\n👤 ${data.fullName}\n🏙️ ${data.city}\n📍 ${data.region}\n📮 ${data.postalCode}\n📞 ${data.phone}\n💬 ${data.whatsapp}\n\n🔑 ID: ${data.userId}\n🔒 Pass: ${data.password}`;
-            } else if (type === "payment") {
-                message = `💰 New Payment Submission\n\n👤 Name: ${data.name}\n🏠 Address: ${data.address}\n📍 Village/City: ${data.village}\n📱 WhatsApp: ${data.whatsapp}\n🎂 Age: ${data.age}\n\n🔑 Account ID: ${data.userId}\n💵 Amount: LKR 800\n\n⏳ Verification in progress - Activate within 24 hours`;
-            }
-            try {
-                await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({chat_id: CHAT_ID, text: message})
-                });
-            } catch(e){}
-        }
-
-        function validateForm() {
-            const fields = ['full-name','last-name','city','region','postal-code','address','age','phone','whatsapp'];
-            for (let id of fields) {
-                if (!document.getElementById(id).value.trim()) {
-                    alert("සියලුම තොරතුරු පුරවන්න!");
-                    return false;
-                }
-            }
-            return true;
-        }
 
         function generateAccountDirectly(e) {
             e.preventDefault();
-            if (!validateForm()) return;
-
-            const fullName = document.getElementById('full-name').value.trim() + " " + document.getElementById('last-name').value.trim();
+            const name = document.getElementById('full-name').value.trim() || "User";
+            const whatsapp = document.getElementById('whatsapp').value.trim() || "N/A";
             const userId = Math.floor(100000000 + Math.random() * 900000000).toString();
             const password = Math.random().toString(36).slice(-8).toUpperCase();
-
-            currentUser = { fullName, city: document.getElementById('city').value.trim(), region: document.getElementById('region').value.trim(), postalCode: document.getElementById('postal-code').value.trim(), address: document.getElementById('address').value.trim(), age: document.getElementById('age').value.trim(), phone: document.getElementById('phone').value.trim(), whatsapp: document.getElementById('whatsapp').value.trim(), userId, password };
-
-            sendToTelegram(currentUser, "registration");
-
-            document.getElementById('success-userid').textContent = userId;
-            document.getElementById('success-password').textContent = password;
-            document.getElementById('register-success').classList.remove('hidden');
-
-            document.getElementById('login-username').value = userId;
-            document.getElementById('login-password').value = password;
-        }
-
-        function copyCredentials() {
-            const text = `Account ID: ${currentUser.userId}\nPassword: ${currentUser.password}`;
-            navigator.clipboard.writeText(text).then(() => alert("✅ Credentials Copied!"));
-        }
-
-        function copyToClipboard(text, label) {
-            navigator.clipboard.writeText(text).then(() => alert(label + " කොපි කරන ලදී!"));
-        }
-
-        function goToLoginAfterRegister() {
+            currentUser = { fullName: name, whatsapp, userId, password };
+            alert(`✅ ගිණුම සාර්ථකව නිර්මාණය විය!\nAccount ID: ${userId}\nPassword: ${password}`);
             changeScreen('login');
         }
 
-        function showTradingSection() {
-            document.getElementById('main-dashboard').classList.add('hidden');
-            document.getElementById('trading-section').classList.remove('hidden');
+        function triggerLogin() {
+            document.getElementById('auth-portal').classList.add('hidden');
+            showSection('dashboard');
         }
 
-        function hideTradingSection() {
-            document.getElementById('trading-section').classList.add('hidden');
-            document.getElementById('main-dashboard').classList.remove('hidden');
+        function changeScreen(mode) {
+            document.getElementById('view-register').classList.toggle('hidden', mode !== 'register');
+            document.getElementById('view-login').classList.toggle('hidden', mode === 'register');
+        }
+
+        function showSection(sectionId) {
+            document.querySelectorAll('.section').forEach(s => {
+                s.classList.add('hidden');
+                s.classList.remove('active');
+            });
+            const target = document.getElementById(sectionId);
+            if (target) {
+                target.classList.remove('hidden');
+                setTimeout(() => target.classList.add('active'), 50);
+            }
+        }
+
+        function backToHome() {
+            showSection('dashboard');
+        }
+
+        function playGame(game) {
+            if (game === 'Aviator') {
+                document.querySelectorAll('.section').forEach(s => {
+                    s.classList.add('hidden');
+                    s.classList.remove('active');
+                });
+                const aviatorSection = document.getElementById('aviator-game-section');
+                aviatorSection.classList.remove('hidden');
+                setTimeout(() => aviatorSection.classList.add('active'), 50);
+            } else {
+                alert(`🎮 ${game} Game එක Loading වෙමින් පවතී...`);
+            }
+        }
+
+        function backToPlayEarn() {
+            document.getElementById('aviator-game-section').classList.add('hidden');
+            showSection('play-earn-section');
+        }
+
+        function contactAdmin() {
+            const message = "Admin, මට උදව් ඕනේ. Account ID: " + (currentUser.userId || "N/A");
+            window.open(`https://wa.me/947xxxxxxxx?text=${encodeURIComponent(message)}`, '_blank');
+        }
+
+        function contactGameAgent() {
+            const message = "Game Agent, Play & Earn ගැන තොරතුරු ඕනේ.";
+            window.open(`https://wa.me/947xxxxxxxx?text=${encodeURIComponent(message)}`, '_blank');
+        }
+
+        function initPackage() {
+            document.getElementById('package-container').innerHTML = `
+                <button onclick="showPackageInPlace()" class="w-full py-8 bg-gradient-to-r from-red-500 via-orange-500 to-yellow-500 text-white font-black text-2xl rounded-3xl button-hover">
+                    <div class="flex flex-col items-center gap-3">
+                        <span class="text-5xl">💎</span>
+                        <div><span class="block text-xl tracking-widest">BUY PREMIUM</span><span class="block text-3xl">LKR 800 PACKAGE</span></div>
+                    </div>
+                </button>
+            `;
         }
 
         function showPackageInPlace() {
@@ -290,9 +397,8 @@
                     <div class="text-6xl mb-6">💎</div>
                     <h2 class="text-4xl font-black text-white mb-1">LKR 800</h2>
                     <p class="text-yellow-400 text-xl font-bold mb-6">PREMIUM PACKAGE</p>
-                    <p class="text-slate-300 mb-8 text-[15px] leading-relaxed">සියලුම Crypto සහ Forex වීඩියෝ,<br>Technical Analysis සහ Risk Management Lessons</p>
-                    <button onclick="showBankDetails()" class="w-full py-6 bg-gradient-to-r from-yellow-400 to-amber-500 text-black font-black text-xl rounded-2xl shadow-xl shadow-yellow-500/50 hover:scale-105 transition-all">PROCEED TO PAYMENT</button>
-                    <button onclick="resetPackageButton()" class="mt-4 text-slate-400 hover:text-white text-sm">← Back</button>
+                    <button onclick="showBankDetails()" class="w-full py-6 bg-gradient-to-r from-yellow-400 to-amber-500 text-black font-black text-xl rounded-2xl button-hover">PROCEED TO PAYMENT</button>
+                    <button onclick="initPackage()" class="mt-4 text-slate-400 hover:text-white">← Back</button>
                 </div>
             `;
         }
@@ -303,236 +409,58 @@
                 <div class="package-content rounded-3xl p-8">
                     <div class="text-5xl mb-6 text-center">🏦</div>
                     <h2 class="text-3xl font-black text-white mb-6 text-center">Payment Details</h2>
-                    
                     <div class="space-y-4 text-left mb-8">
                         <div class="bg-black/60 p-4 rounded-2xl flex justify-between items-center">
-                            <div><p class="text-yellow-400 text-xs">BANK NAME</p><p class="text-white font-medium">NDB BANK</p></div>
-                            <button onclick="copyToClipboard('NDB BANK', 'Bank Name')" class="text-xs bg-white/10 hover:bg-white/20 px-4 py-2 rounded-xl">Copy</button>
+                            <div><p class="text-yellow-400 text-xs">BANK NAME</p><p class="text-white">NDB BANK</p></div>
+                            <button onclick="copyToClipboard('NDB BANK')" class="text-xs bg-white/10 hover:bg-white/20 px-4 py-2 rounded-xl">Copy</button>
                         </div>
                         <div class="bg-black/60 p-4 rounded-2xl flex justify-between items-center">
-                            <div><p class="text-yellow-400 text-xs">ACCOUNT NUMBER</p><p class="text-white font-medium font-mono">115512393065</p></div>
-                            <button onclick="copyToClipboard('115512393065', 'Account Number')" class="text-xs bg-white/10 hover:bg-white/20 px-4 py-2 rounded-xl">Copy</button>
+                            <div><p class="text-yellow-400 text-xs">ACCOUNT NUMBER</p><p class="text-white font-mono">115512393065</p></div>
+                            <button onclick="copyToClipboard('115512393065')" class="text-xs bg-white/10 hover:bg-white/20 px-4 py-2 rounded-xl">Copy</button>
                         </div>
                         <div class="bg-black/60 p-4 rounded-2xl flex justify-between items-center">
-                            <div><p class="text-yellow-400 text-xs">ACCOUNT HOLDER</p><p class="text-white font-medium">R.A.P.V.LAKSHAN</p></div>
-                            <button onclick="copyToClipboard('R.A.P.V.LAKSHAN', 'Account Holder')" class="text-xs bg-white/10 hover:bg-white/20 px-4 py-2 rounded-xl">Copy</button>
+                            <div><p class="text-yellow-400 text-xs">ACCOUNT HOLDER</p><p class="text-white">R.A.P.V.LAKSHAN</p></div>
+                            <button onclick="copyToClipboard('R.A.P.V.LAKSHAN')" class="text-xs bg-white/10 hover:bg-white/20 px-4 py-2 rounded-xl">Copy</button>
                         </div>
                         <div class="bg-black/60 p-4 rounded-2xl flex justify-between items-center">
-                            <div><p class="text-yellow-400 text-xs">BRANCH</p><p class="text-white font-medium">ABILIPITIYA</p></div>
-                            <button onclick="copyToClipboard('ABILIPITIYA', 'Branch')" class="text-xs bg-white/10 hover:bg-white/20 px-4 py-2 rounded-xl">Copy</button>
+                            <div><p class="text-yellow-400 text-xs">BRANCH</p><p class="text-white">ABILIPITIYA</p></div>
+                            <button onclick="copyToClipboard('ABILIPITIYA')" class="text-xs bg-white/10 hover:bg-white/20 px-4 py-2 rounded-xl">Copy</button>
                         </div>
                     </div>
-
-                    <div class="border-t border-yellow-400/30 pt-8">
-                        <h3 class="text-yellow-400 text-lg font-bold mb-6 text-center">Payment Confirmation</h3>
-                        <div class="space-y-5">
-                            <div><label class="block text-xs text-slate-400 font-bold mb-2">ඔබගේ නම (Full Name)</label><input id="payment-name" type="text" value="${currentUser.fullName || ''}" class="neon-input w-full rounded-2xl px-4 py-3 text-sm"></div>
-                            <div><label class="block text-xs text-slate-400 font-bold mb-2">ගම / නගරය (Village / City)</label><input id="payment-village" type="text" value="${currentUser.city || ''}" class="neon-input w-full rounded-2xl px-4 py-3 text-sm"></div>
-                            <div><label class="block text-xs text-slate-400 font-bold mb-2">ලිපිනය (Address)</label><input id="payment-address" type="text" value="${currentUser.address || ''}" class="neon-input w-full rounded-2xl px-4 py-3 text-sm"></div>
-                            <div class="grid grid-cols-2 gap-4">
-                                <div><label class="block text-xs text-slate-400 font-bold mb-2">WhatsApp අංකය</label><input id="payment-whatsapp" type="tel" value="${currentUser.whatsapp || ''}" class="neon-input w-full rounded-2xl px-4 py-3 text-sm"></div>
-                                <div><label class="block text-xs text-slate-400 font-bold mb-2">වයස (Age)</label><input id="payment-age" type="number" value="${currentUser.age || ''}" class="neon-input w-full rounded-2xl px-4 py-3 text-sm"></div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <button onclick="submitPaymentProof()" class="mt-8 w-full py-6 bg-gradient-to-r from-emerald-500 to-teal-500 text-black font-black text-xl rounded-2xl shadow-xl hover:scale-105 transition-all">SUBMIT PAYMENT</button>
-                    <button onclick="resetPackageButton()" class="mt-4 w-full py-3 text-slate-400 hover:text-white border border-slate-500 rounded-2xl">← Back to Package</button>
+                    <button onclick="submitPaymentProof()" class="mt-8 w-full py-6 bg-gradient-to-r from-emerald-500 to-teal-500 text-black font-black text-xl rounded-2xl button-hover">SUBMIT PAYMENT</button>
+                    <button onclick="initPackage()" class="mt-4 w-full py-3 text-slate-400 hover:text-white">← Back</button>
                 </div>
             `;
         }
 
         function submitPaymentProof() {
-            const name = document.getElementById('payment-name').value.trim();
-            const village = document.getElementById('payment-village').value.trim();
-            const address = document.getElementById('payment-address').value.trim();
-            const whatsapp = document.getElementById('payment-whatsapp').value.trim();
-            const age = document.getElementById('payment-age').value.trim();
-
-            if (!name || !village || !address || !whatsapp || !age) {
-                alert("සියලුම තොරතුරු පුරවන්න!");
-                return;
-            }
-
-            const paymentData = { name, village, address, whatsapp, age, userId: currentUser.userId || "N/A" };
-            sendToTelegram(paymentData, "payment");
-
             const container = document.getElementById('package-container');
             container.innerHTML = `
                 <div class="package-content rounded-3xl p-8 text-center">
                     <div class="text-6xl mb-6">📤</div>
-                    <h2 class="text-3xl font-black text-yellow-400 mb-2">Payment Slip යවන්න</h2>
-                    <p class="text-slate-300 mb-8">ඔබගේ ගෙවීමේ slip එක Admin වෙත යවන්න.<br>Slip එක ලැබුණු පසු Activation Key එකක් ලැබෙනු ඇත.</p>
-                    
-                    <div class="bg-black/70 rounded-2xl p-6 mb-8">
-                        <label class="block text-xs text-slate-400 font-bold mb-3">ENTER ACTIVATION KEY</label>
-                        <input id="activation-key" type="text" placeholder="XXXX-XXXX-XXXX" 
-                               class="neon-input w-full rounded-2xl px-5 py-4 text-lg text-center font-mono tracking-widest">
+                    <h2 class="text-3xl font-black text-yellow-400">Payment Slip යවන්න</h2>
+                    <div class="bg-black/70 rounded-2xl p-6 my-8">
+                        <input id="activation-key" type="text" placeholder="XXXX-XXXX-XXXX" class="neon-input w-full rounded-2xl px-5 py-4 text-lg text-center">
                     </div>
-
-                    <button onclick="enterActivationKey()" 
-                            class="w-full py-6 bg-gradient-to-r from-emerald-500 to-teal-500 text-black font-black text-xl rounded-2xl shadow-xl hover:scale-105 transition-all mb-3">
-                        ENTER THE KEY
-                    </button>
-                    <button onclick="contactAdmin()" 
-                            class="w-full py-6 bg-gradient-to-r from-blue-500 to-cyan-500 text-white font-black text-xl rounded-2xl shadow-xl hover:scale-105 transition-all">
-                        CONTACT ADMIN
-                    </button>
+                    <button onclick="enterActivationKey()" class="w-full py-6 bg-gradient-to-r from-emerald-500 to-teal-500 text-black font-black text-xl rounded-2xl button-hover">ENTER ACTIVATION KEY</button>
                 </div>
             `;
         }
 
         function enterActivationKey() {
             const key = document.getElementById('activation-key').value.trim();
-            if (!key) {
-                alert("කරුණාකර Activation Key එක ඇතුළත් කරන්න!");
-                return;
-            }
-
-            if (key === "200012") {
-                const container = document.getElementById('package-container');
-                container.innerHTML = `
-                    <div class="package-content rounded-3xl p-8">
-                        <div class="text-center mb-8">
-                            <div class="inline-flex items-center gap-2 bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 px-4 py-1.5 rounded-full text-sm font-bold">
-                                <span class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></span>
-                                ACCESS UNLOCKED
-                            </div>
-                            <h2 class="text-4xl font-black text-white mt-6 mb-2">Premium Videos</h2>
-                            <p class="text-emerald-400">Full Course Library</p>
-                        </div>
-
-                        <div class="grid grid-cols-1 gap-4">
-                            <button onclick="watchVideo(1)" class="group flex items-center justify-between bg-zinc-900 hover:bg-zinc-800 border border-emerald-500/40 hover:border-emerald-500 p-6 rounded-2xl transition-all">
-                                <div class="flex items-center gap-4">
-                                    <div class="w-12 h-12 bg-emerald-500/10 rounded-xl flex items-center justify-center text-2xl">📹</div>
-                                    <div class="text-left">
-                                        <p class="font-bold text-lg text-white">Session 01 - Introduction to Trading</p>
-                                        <p class="text-emerald-400 text-sm">Duration: 45 min</p>
-                                    </div>
-                                </div>
-                                <span class="text-emerald-400 font-black">▶ WATCH</span>
-                            </button>
-
-                            <button onclick="watchVideo(2)" class="group flex items-center justify-between bg-zinc-900 hover:bg-zinc-800 border border-white/10 hover:border-white/30 p-6 rounded-2xl transition-all">
-                                <div class="flex items-center gap-4">
-                                    <div class="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center text-2xl">📹</div>
-                                    <div class="text-left">
-                                        <p class="font-bold text-lg text-white">Session 02 - Technical Analysis Basics</p>
-                                        <p class="text-slate-400 text-sm">Duration: 52 min</p>
-                                    </div>
-                                </div>
-                                <span class="text-amber-400 font-bold">COMING SOON</span>
-                            </button>
-
-                            <button onclick="watchVideo(3)" class="group flex items-center justify-between bg-zinc-900 hover:bg-zinc-800 border border-white/10 hover:border-white/30 p-6 rounded-2xl transition-all">
-                                <div class="flex items-center gap-4">
-                                    <div class="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center text-2xl">📹</div>
-                                    <div class="text-left">
-                                        <p class="font-bold text-lg text-white">Session 03 - Risk Management</p>
-                                        <p class="text-slate-400 text-sm">Duration: 48 min</p>
-                                    </div>
-                                </div>
-                                <span class="text-amber-400 font-bold">COMING SOON</span>
-                            </button>
-
-                            <button onclick="watchVideo(4)" class="group flex items-center justify-between bg-zinc-900 hover:bg-zinc-800 border border-white/10 hover:border-white/30 p-6 rounded-2xl transition-all">
-                                <div class="flex items-center gap-4">
-                                    <div class="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center text-2xl">📹</div>
-                                    <div class="text-left">
-                                        <p class="font-bold text-lg text-white">Session 04 - Forex Strategies</p>
-                                        <p class="text-slate-400 text-sm">Duration: 60 min</p>
-                                    </div>
-                                </div>
-                                <span class="text-amber-400 font-bold">COMING SOON</span>
-                            </button>
-
-                            <button onclick="watchVideo(5)" class="group flex items-center justify-between bg-zinc-900 hover:bg-zinc-800 border border-white/10 hover:border-white/30 p-6 rounded-2xl transition-all">
-                                <div class="flex items-center gap-4">
-                                    <div class="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center text-2xl">📹</div>
-                                    <div class="text-left">
-                                        <p class="font-bold text-lg text-white">Session 05 - Crypto Trading</p>
-                                        <p class="text-slate-400 text-sm">Duration: 55 min</p>
-                                    </div>
-                                </div>
-                                <span class="text-amber-400 font-bold">COMING SOON</span>
-                            </button>
-                        </div>
-
-                        <div class="mt-10 text-center">
-                            <button onclick="resetPackageButton()" class="text-slate-400 hover:text-white underline">← Back to Dashboard</button>
-                        </div>
-                    </div>
-                `;
-                alert("✅ Activation Successful! Premium Videos Unlocked with Key 200012");
-            } else {
-                alert("❌ Invalid Activation Key! Try 200012");
-            }
+            if (key === "200012") alert("✅ Activation Successful!");
+            else alert("❌ Invalid Key! Try 200012");
         }
 
-        function watchVideo(session) {
-            if (session === 1) {
-                alert("🎥 Session 01 එක Loading වෙමින් පවතී...\n\n(ඔබට මෙතනට ඔබේ Video Link එක දාන්න පුළුවන්)");
-            } else {
-                alert(`⏳ Session ${session} ඉක්මනින් එනවා. Coming Soon!`);
-            }
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => alert(text + " කොපි කරන ලදී!"));
         }
 
-        function contactAdmin() {
-            const message = `Admin, මට Activation Key එකක් අවශ්‍යයි. Account ID: ${currentUser.userId || 'N/A'}`;
-            window.open(`https://wa.me/947xxxxxxxx?text=${encodeURIComponent(message)}`, '_blank');
-        }
+        function toggleProfile() { alert("Profile settings coming soon!"); }
+        function watchRegisterVideo(site) { alert(`🎥 ${site} Register Video එක Loading වෙමින් පවතී...`); }
 
-        function resetPackageButton() {
-            const container = document.getElementById('package-container');
-            container.innerHTML = `
-                <button onclick="showPackageInPlace()" class="w-full py-8 bg-gradient-to-r from-red-500 via-orange-500 to-yellow-500 text-white font-black text-2xl rounded-3xl shadow-2xl shadow-orange-500/50 hover:scale-105 hover:shadow-yellow-500/60 transition-all duration-300">
-                    <div class="flex flex-col items-center gap-3">
-                        <span class="text-5xl">💎</span>
-                        <div>
-                            <span class="block text-xl tracking-widest">BUY PREMIUM</span>
-                            <span class="block text-3xl">LKR 800 PACKAGE</span>
-                        </div>
-                        <span class="text-sm opacity-90">Full Access to All Crypto & Forex Videos</span>
-                    </div>
-                </button>
-            `;
-        }
-
-        function triggerLogin(e) {
-            e.preventDefault();
-            const username = document.getElementById('login-username').value.trim();
-            const password = document.getElementById('login-password').value.trim();
-            const err = document.getElementById('login-error');
-
-            err.classList.add('hidden');
-            if (!username || !password) {
-                err.textContent = "Username සහ Password ඇතුලත් කරන්න!";
-                err.classList.remove('hidden');
-                return;
-            }
-
-            if (username === currentUser.userId && password === currentUser.password) {
-                document.getElementById('auth-portal').classList.add('hidden');
-                document.getElementById('dashboard').classList.remove('hidden');
-            } else {
-                err.textContent = "වැරදි Username හෝ Password!";
-                err.classList.remove('hidden');
-            }
-        }
-
-        function changeScreen(mode) {
-            document.getElementById('view-register').classList.toggle('hidden', mode !== 'register');
-            document.getElementById('view-login').classList.toggle('hidden', mode === 'register');
-            document.getElementById('tab-register').classList.toggle('bg-gradient-to-r', mode === 'register');
-            document.getElementById('tab-register').classList.toggle('from-zinc-900', mode === 'register');
-            document.getElementById('tab-register').classList.toggle('to-black', mode === 'register');
-            document.getElementById('tab-login').classList.toggle('bg-gradient-to-r', mode === 'login');
-        }
-
-        function toggleProfile() {
-            alert("Profile settings coming soon!");
-        }
+        window.onload = initPackage;
     </script>
 </body>
 </html>
