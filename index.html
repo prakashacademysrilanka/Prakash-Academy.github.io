@@ -309,6 +309,58 @@
         </div>
     </div>
 
+    <!-- Profile Modal -->
+    <div id="profile-modal" class="hidden fixed inset-0 bg-black/80 backdrop-blur-xl z-[10000] flex items-center justify-center">
+        <div class="cyber-card rounded-3xl p-8 max-w-lg w-full mx-4 border border-red-500/30 shadow-2xl">
+            <div class="flex justify-between items-center mb-6">
+                <div class="flex items-center gap-3">
+                    <div class="w-14 h-14 bg-gradient-to-br from-red-500 to-orange-500 rounded-2xl flex items-center justify-center text-3xl">👤</div>
+                    <div>
+                        <h2 class="text-2xl font-black text-white cyber-font">LAKSHAN</h2>
+                        <p class="text-emerald-400 text-sm">Premium Trader • Level 7</p>
+                    </div>
+                </div>
+                <button onclick="closeProfile()" class="text-3xl text-slate-400 hover:text-white">✕</button>
+            </div>
+
+            <!-- Super Nice App Notice -->
+            <div class="bg-gradient-to-br from-amber-500/10 to-red-500/10 border border-amber-400/30 rounded-3xl p-7 mb-8">
+                <div class="flex items-center gap-3 mb-4">
+                    <span class="text-5xl">🚀</span>
+                    <h3 class="text-2xl font-black text-amber-400 cyber-font">PRAKASH ACADEMY APP</h3>
+                </div>
+                <p class="text-slate-200 leading-relaxed mb-6">
+                    ඔබේ සම්පූර්ණ Trading සහ Earning Journey එක දැන් එක තැනකින්! 
+                    <strong class="text-emerald-400">Signals, Live Sessions, Games, Wallet සහ Instant Withdrawals</strong> සියල්ල ඔබේ මුදුන් ඇතුළත.
+                </p>
+                <div class="text-center bg-black/60 rounded-2xl py-3 text-emerald-400 font-medium">
+                    Coming Soon - Q3 2026
+                </div>
+            </div>
+
+            <div class="grid grid-cols-3 gap-4 mb-8">
+                <div class="text-center bg-black/60 rounded-2xl p-4">
+                    <p class="text-3xl font-black text-red-400">12</p>
+                    <p class="text-xs text-slate-400">Sessions</p>
+                </div>
+                <div class="text-center bg-black/60 rounded-2xl p-4">
+                    <p class="text-3xl font-black text-emerald-400">24K</p>
+                    <p class="text-xs text-slate-400">Earned</p>
+                </div>
+                <div class="text-center bg-black/60 rounded-2xl p-4">
+                    <p class="text-3xl font-black text-amber-400">07</p>
+                    <p class="text-xs text-slate-400">Games</p>
+                </div>
+            </div>
+
+            <button onclick="alert('Referral system coming soon!')" class="w-full py-4 bg-gradient-to-r from-emerald-500 to-teal-500 text-black font-black rounded-2xl button-hover mb-3">
+                👥 Invite Friends & Earn
+            </button>
+
+            <button onclick="closeProfile()" class="w-full py-3 text-slate-400 hover:text-white">Close Profile</button>
+        </div>
+    </div>
+
     <script>
         // Loading
         let progress = 0;
@@ -360,6 +412,22 @@
             }
         }
 
+        function toggleProfile() {
+            document.getElementById('profile-modal').classList.remove('hidden');
+            document.getElementById('profile-modal').classList.add('flex');
+        }
+
+        function closeProfile() {
+            const modal = document.getElementById('profile-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        // Close when clicking outside
+        document.getElementById('profile-modal').addEventListener('click', function(e) {
+            if (e.target === this) closeProfile();
+        });
+
         function contactAdmin() {
             window.open('https://wa.me/947xxxxxxxx?text=Admin%20මට%20උදව්%20ඕනේ', '_blank');
         }
@@ -368,15 +436,11 @@
             window.open('https://wa.me/947xxxxxxxx?text=Game%20Agent%20Play%20%26%20Earn%20ගැන%20තොරතුරු%20ඕනේ', '_blank');
         }
 
-        function toggleProfile() {
-            alert("Profile settings coming soon!");
-        }
-
         function watchRegisterVideo(site) {
             alert(`🎥 ${site} Register Video එක Loading වෙමින් පවතී...`);
         }
 
-        // Trading Premium Package
+        // Trading Package Functions
         function initPackage() {
             document.getElementById('package-container').innerHTML = `
                 <button onclick="showPackageInPlace()" class="w-full py-8 bg-gradient-to-r from-red-500 via-orange-500 to-yellow-500 text-white font-black text-2xl rounded-3xl button-hover">
@@ -468,95 +532,19 @@
 
         function playSessionVideo(session) {
             let title = `Session ${session}`;
+            let videoUrl = 'https://www.youtube.com/embed/dQw4w9wgxcq';
 
-            if (session === 1) {
-                let videoUrl = 'https://www.youtube.com/watch?v=p3Fa4AHcBK8';
-                let description = "Introduction to Trading Basics";
+            if (session === 1) videoUrl = 'https://www.youtube.com/watch?v=p3Fa4AHcBK8';
+            else if (session === 2) videoUrl = 'https://youtu.be/B2_GwbDC3CY';
+            else if (session === 3) videoUrl = 'https://youtu.be/wuPmDObvYRo';
 
-                document.getElementById('package-container').innerHTML = `
-                    <div class="package-content rounded-3xl p-8 text-center">
-                        <h2 class="text-3xl font-black text-white mb-6">${title}</h2>
-                        <p class="text-emerald-400 mb-10 text-lg">${description}</p>
-                        <button onclick="watchYouTubeVideo('${videoUrl}')" 
-                                class="w-full py-8 bg-gradient-to-r from-red-500 to-orange-500 hover:from-red-600 hover:to-orange-600 text-white font-black text-2xl rounded-3xl button-hover flex items-center justify-center gap-4">
-                            <span class="text-4xl">▶️</span>
-                            WATCH VIDEO ON YOUTUBE
-                        </button>
-                        <button onclick="showPremiumContent()" 
-                                class="mt-6 w-full py-4 bg-zinc-800 hover:bg-zinc-700 text-white rounded-2xl">
-                            ← Back to Sessions
-                        </button>
-                    </div>
-                `;
-            } 
-            else if (session === 2) {
-                let videoUrl = 'https://youtu.be/B2_GwbDC3CY?si=yIvSZ4CUemH0RBi9';
-                let description = "Technical Analysis";
-
-                document.getElementById('package-container').innerHTML = `
-                    <div class="package-content rounded-3xl p-8 text-center">
-                        <h2 class="text-3xl font-black text-white mb-6">${title}</h2>
-                        <p class="text-emerald-400 mb-10 text-lg">${description}</p>
-                        
-                        <button onclick="watchYouTubeVideo('${videoUrl}')" 
-                                class="w-full py-8 bg-gradient-to-r from-red-500 to-orange-500 hover:from-red-600 hover:to-orange-600 text-white font-black text-2xl rounded-3xl button-hover flex items-center justify-center gap-4">
-                            <span class="text-4xl">▶️</span>
-                            WATCH VIDEO
-                        </button>
-                        
-                        <p class="text-amber-400 text-sm mt-6 leading-relaxed bg-black/50 p-4 rounded-2xl">
-                            මෙහි ඉතිරි clip එක session 03 Video එකේ ඇත.<br>
-                            මෙහි කොට බල session 03එකේ ඉතිරි කොටස බලන්න.
-                        </p>
-                        
-                        <button onclick="showPremiumContent()" 
-                                class="mt-6 w-full py-4 bg-zinc-800 hover:bg-zinc-700 text-white rounded-2xl">
-                            ← Back to Sessions
-                        </button>
-                    </div>
-                `;
-            } 
-            else if (session === 3) {
-                let videoUrl = 'https://youtu.be/wuPmDObvYRo?si=2bBBdPlu4OswqNdo';
-                let description = "Candlestick Patterns";
-
-                document.getElementById('package-container').innerHTML = `
-                    <div class="package-content rounded-3xl p-8 text-center">
-                        <h2 class="text-3xl font-black text-white mb-6">${title}</h2>
-                        <p class="text-emerald-400 mb-10 text-lg">${description}</p>
-                        <button onclick="watchYouTubeVideo('${videoUrl}')" 
-                                class="w-full py-8 bg-gradient-to-r from-red-500 to-orange-500 hover:from-red-600 hover:to-orange-600 text-white font-black text-2xl rounded-3xl button-hover flex items-center justify-center gap-4">
-                            <span class="text-4xl">▶️</span>
-                            WATCH VIDEO ON YOUTUBE
-                        </button>
-                        <button onclick="showPremiumContent()" 
-                                class="mt-6 w-full py-4 bg-zinc-800 hover:bg-zinc-700 text-white rounded-2xl">
-                            ← Back to Sessions
-                        </button>
-                    </div>
-                `;
-            } 
-            else {
-                let videoUrl = 'https://www.youtube.com/embed/dQw4w9wgxcq';
-                if (session === 4) videoUrl = 'https://www.youtube.com/embed/p3Fa4AHcBK8'; // Example
-                
-                document.getElementById('package-container').innerHTML = `
-                    <div class="package-content rounded-3xl p-6">
-                        <div class="flex justify-between items-center mb-6">
-                            <h2 class="text-2xl font-black text-white">${title}</h2>
-                            <button onclick="showPremiumContent()" class="px-5 py-2 bg-zinc-800 hover:bg-zinc-700 rounded-xl text-sm">← Back</button>
-                        </div>
-                        <iframe width="100%" height="500" src="${videoUrl}" 
-                                title="${title}" frameborder="0" 
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                                allowfullscreen class="video-frame"></iframe>
-                    </div>
-                `;
-            }
-        }
-
-        function watchYouTubeVideo(url) {
-            window.open(url, '_blank');
+            document.getElementById('package-container').innerHTML = `
+                <div class="package-content rounded-3xl p-8 text-center">
+                    <h2 class="text-3xl font-black text-white mb-6">${title}</h2>
+                    <button onclick="window.open('${videoUrl}', '_blank')" class="w-full py-8 bg-gradient-to-r from-red-500 to-orange-500 text-white font-black text-2xl rounded-3xl button-hover">▶️ WATCH VIDEO</button>
+                    <button onclick="showPremiumContent()" class="mt-6 w-full py-4 bg-zinc-800 hover:bg-zinc-700 text-white rounded-2xl">← Back to Sessions</button>
+                </div>
+            `;
         }
 
         function copyToClipboard(text) {
