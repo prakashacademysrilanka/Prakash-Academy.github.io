@@ -470,18 +470,44 @@
             let title = `Session ${session}`;
 
             if (session === 1) {
-                // Session 01 - Watch Video Button (Opens YouTube in new tab)
-                const videoUrl = 'https://www.youtube.com/watch?v=p3Fa4AHcBK8';
+                let videoUrl = 'https://www.youtube.com/watch?v=p3Fa4AHcBK8';
+                let description = "Introduction to Trading Basics";
+
                 document.getElementById('package-container').innerHTML = `
                     <div class="package-content rounded-3xl p-8 text-center">
                         <h2 class="text-3xl font-black text-white mb-6">${title}</h2>
-                        <p class="text-emerald-400 mb-10 text-lg">Introduction to Trading Basics</p>
-                        
+                        <p class="text-emerald-400 mb-10 text-lg">${description}</p>
                         <button onclick="watchYouTubeVideo('${videoUrl}')" 
                                 class="w-full py-8 bg-gradient-to-r from-red-500 to-orange-500 hover:from-red-600 hover:to-orange-600 text-white font-black text-2xl rounded-3xl button-hover flex items-center justify-center gap-4">
                             <span class="text-4xl">▶️</span>
                             WATCH VIDEO ON YOUTUBE
                         </button>
+                        <button onclick="showPremiumContent()" 
+                                class="mt-6 w-full py-4 bg-zinc-800 hover:bg-zinc-700 text-white rounded-2xl">
+                            ← Back to Sessions
+                        </button>
+                    </div>
+                `;
+            } 
+            else if (session === 2) {
+                let videoUrl = 'https://youtu.be/B2_GwbDC3CY?si=yIvSZ4CUemH0RBi9';
+                let description = "Technical Analysis";
+
+                document.getElementById('package-container').innerHTML = `
+                    <div class="package-content rounded-3xl p-8 text-center">
+                        <h2 class="text-3xl font-black text-white mb-6">${title}</h2>
+                        <p class="text-emerald-400 mb-10 text-lg">${description}</p>
+                        
+                        <button onclick="watchYouTubeVideo('${videoUrl}')" 
+                                class="w-full py-8 bg-gradient-to-r from-red-500 to-orange-500 hover:from-red-600 hover:to-orange-600 text-white font-black text-2xl rounded-3xl button-hover flex items-center justify-center gap-4">
+                            <span class="text-4xl">▶️</span>
+                            WATCH VIDEO
+                        </button>
+                        
+                        <p class="text-amber-400 text-sm mt-6 leading-relaxed bg-black/50 p-4 rounded-2xl">
+                            මෙහි ඉතිරි clip එක session 03 Video එකේ ඇත.<br>
+                            මෙහි කොට බල session 03එකේ ඉතිරි කොටස බලන්න.
+                        </p>
                         
                         <button onclick="showPremiumContent()" 
                                 class="mt-6 w-full py-4 bg-zinc-800 hover:bg-zinc-700 text-white rounded-2xl">
@@ -489,12 +515,30 @@
                         </button>
                     </div>
                 `;
-            } else {
-                // Other sessions - Embedded player
-                let videoUrl = 'https://www.youtube.com/embed/dQw4w9wgxcq'; // Default
-                if (session === 2 || session === 3) {
-                    videoUrl = 'https://www.youtube.com/embed/p3Fa4AHcBK8';
-                }
+            } 
+            else if (session === 3) {
+                let videoUrl = 'https://youtu.be/wuPmDObvYRo?si=2bBBdPlu4OswqNdo';
+                let description = "Candlestick Patterns";
+
+                document.getElementById('package-container').innerHTML = `
+                    <div class="package-content rounded-3xl p-8 text-center">
+                        <h2 class="text-3xl font-black text-white mb-6">${title}</h2>
+                        <p class="text-emerald-400 mb-10 text-lg">${description}</p>
+                        <button onclick="watchYouTubeVideo('${videoUrl}')" 
+                                class="w-full py-8 bg-gradient-to-r from-red-500 to-orange-500 hover:from-red-600 hover:to-orange-600 text-white font-black text-2xl rounded-3xl button-hover flex items-center justify-center gap-4">
+                            <span class="text-4xl">▶️</span>
+                            WATCH VIDEO ON YOUTUBE
+                        </button>
+                        <button onclick="showPremiumContent()" 
+                                class="mt-6 w-full py-4 bg-zinc-800 hover:bg-zinc-700 text-white rounded-2xl">
+                            ← Back to Sessions
+                        </button>
+                    </div>
+                `;
+            } 
+            else {
+                let videoUrl = 'https://www.youtube.com/embed/dQw4w9wgxcq';
+                if (session === 4) videoUrl = 'https://www.youtube.com/embed/p3Fa4AHcBK8'; // Example
                 
                 document.getElementById('package-container').innerHTML = `
                     <div class="package-content rounded-3xl p-6">
