@@ -21,7 +21,6 @@
             position: relative;
         }
 
-        /* Loading Screen */
         #loading-screen {
             position: fixed;
             top: 0; left: 0;
@@ -74,7 +73,6 @@
 
         @keyframes textGlow { from { opacity: 0.7; } to { opacity: 1; text-shadow: 0 0 20px #ef4444; } }
 
-        /* Other Styles */
         .cyber-card, .package-content {
             background: rgba(20, 20, 20, 0.9);
             backdrop-filter: blur(25px);
@@ -105,6 +103,12 @@
         .section.active {
             opacity: 1;
             transform: translateY(0);
+        }
+
+        .video-frame {
+            width: 100%;
+            height: 500px;
+            border-radius: 1rem;
         }
     </style>
 </head>
@@ -372,7 +376,7 @@
             alert(`🎥 ${site} Register Video එක Loading වෙමින් පවතී...`);
         }
 
-        // Package Functions
+        // Trading Premium Package
         function initPackage() {
             document.getElementById('package-container').innerHTML = `
                 <button onclick="showPackageInPlace()" class="w-full py-8 bg-gradient-to-r from-red-500 via-orange-500 to-yellow-500 text-white font-black text-2xl rounded-3xl button-hover">
@@ -385,8 +389,7 @@
         }
 
         function showPackageInPlace() {
-            const container = document.getElementById('package-container');
-            container.innerHTML = `
+            document.getElementById('package-container').innerHTML = `
                 <div class="package-content rounded-3xl p-8 text-center">
                     <div class="text-6xl mb-6">💎</div>
                     <h2 class="text-4xl font-black text-white mb-1">LKR 800</h2>
@@ -398,8 +401,7 @@
         }
 
         function showBankDetails() {
-            const container = document.getElementById('package-container');
-            container.innerHTML = `
+            document.getElementById('package-container').innerHTML = `
                 <div class="package-content rounded-3xl p-8">
                     <h2 class="text-3xl font-black text-white mb-6 text-center">Payment Details</h2>
                     <div class="space-y-4 text-left mb-8">
@@ -413,23 +415,104 @@
         }
 
         function submitPaymentProof() {
-            const container = document.getElementById('package-container');
-            container.innerHTML = `
+            document.getElementById('package-container').innerHTML = `
                 <div class="package-content rounded-3xl p-8 text-center">
                     <h2 class="text-3xl font-black text-yellow-400 mb-6">Enter Activation Key</h2>
-                    <input id="activation-key" type="text" placeholder="XXXX-XXXX-XXXX" class="neon-input w-full rounded-2xl px-5 py-4 text-center text-lg mb-6">
+                    <input id="activation-key" type="text" placeholder="XXXX-XXXX-XXXX" class="w-full rounded-2xl px-5 py-4 text-center text-lg mb-6 bg-zinc-900 border border-yellow-400 text-white">
                     <button onclick="enterActivationKey()" class="w-full py-6 bg-gradient-to-r from-emerald-500 to-teal-500 text-black font-black rounded-2xl">ACTIVATE</button>
+                    <button onclick="initPackage()" class="mt-4 text-slate-400 hover:text-white">← Back</button>
                 </div>
             `;
         }
 
         function enterActivationKey() {
             const key = document.getElementById('activation-key').value.trim();
-            if (key === "200012") {
+            if (key === "2000") {
                 alert("✅ Activation Successful! Premium Unlocked.");
+                showPremiumContent();
             } else {
-                alert("❌ Invalid Key! Try 200012");
+                alert("❌ Invalid Key! Try 2000");
             }
+        }
+
+        function showPremiumContent() {
+            document.getElementById('package-container').innerHTML = `
+                <div class="package-content rounded-3xl p-8">
+                    <h2 class="text-3xl font-black text-emerald-400 mb-8 text-center">Premium Trading Sessions</h2>
+                    <div class="grid grid-cols-1 gap-4">
+                        <button onclick="playSessionVideo(1)" class="flex items-center gap-4 bg-gradient-to-br from-zinc-900 to-black border border-emerald-500/50 hover:border-emerald-500 p-6 rounded-2xl button-hover text-left">
+                            <span class="text-4xl">📹</span>
+                            <div><h3 class="text-xl font-bold text-white">Session 01</h3><p class="text-emerald-400">Introduction to Trading Basics</p></div>
+                        </button>
+                        <button onclick="playSessionVideo(2)" class="flex items-center gap-4 bg-gradient-to-br from-zinc-900 to-black border border-emerald-500/50 hover:border-emerald-500 p-6 rounded-2xl button-hover text-left">
+                            <span class="text-4xl">📹</span>
+                            <div><h3 class="text-xl font-bold text-white">Session 02</h3><p class="text-emerald-400">Technical Analysis</p></div>
+                        </button>
+                        <button onclick="playSessionVideo(3)" class="flex items-center gap-4 bg-gradient-to-br from-zinc-900 to-black border border-emerald-500/50 hover:border-emerald-500 p-6 rounded-2xl button-hover text-left">
+                            <span class="text-4xl">📹</span>
+                            <div><h3 class="text-xl font-bold text-white">Session 03</h3><p class="text-emerald-400">Candlestick Patterns</p></div>
+                        </button>
+                        <button onclick="playSessionVideo(4)" class="flex items-center gap-4 bg-gradient-to-br from-zinc-900 to-black border border-emerald-500/50 hover:border-emerald-500 p-6 rounded-2xl button-hover text-left">
+                            <span class="text-4xl">📹</span>
+                            <div><h3 class="text-xl font-bold text-white">Session 04</h3><p class="text-emerald-400">Risk Management</p></div>
+                        </button>
+                        <button onclick="playSessionVideo(5)" class="flex items-center gap-4 bg-gradient-to-br from-zinc-900 to-black border border-emerald-500/50 hover:border-emerald-500 p-6 rounded-2xl button-hover text-left">
+                            <span class="text-4xl">📹</span>
+                            <div><h3 class="text-xl font-bold text-white">Session 05</h3><p class="text-emerald-400">Advanced Strategies</p></div>
+                        </button>
+                    </div>
+                    <button onclick="initPackage()" class="mt-6 w-full py-3 text-slate-400 hover:text-white">Reset Package</button>
+                </div>
+            `;
+        }
+
+        function playSessionVideo(session) {
+            let title = `Session ${session}`;
+
+            if (session === 1) {
+                // Session 01 - Watch Video Button (Opens YouTube in new tab)
+                const videoUrl = 'https://www.youtube.com/watch?v=p3Fa4AHcBK8';
+                document.getElementById('package-container').innerHTML = `
+                    <div class="package-content rounded-3xl p-8 text-center">
+                        <h2 class="text-3xl font-black text-white mb-6">${title}</h2>
+                        <p class="text-emerald-400 mb-10 text-lg">Introduction to Trading Basics</p>
+                        
+                        <button onclick="watchYouTubeVideo('${videoUrl}')" 
+                                class="w-full py-8 bg-gradient-to-r from-red-500 to-orange-500 hover:from-red-600 hover:to-orange-600 text-white font-black text-2xl rounded-3xl button-hover flex items-center justify-center gap-4">
+                            <span class="text-4xl">▶️</span>
+                            WATCH VIDEO ON YOUTUBE
+                        </button>
+                        
+                        <button onclick="showPremiumContent()" 
+                                class="mt-6 w-full py-4 bg-zinc-800 hover:bg-zinc-700 text-white rounded-2xl">
+                            ← Back to Sessions
+                        </button>
+                    </div>
+                `;
+            } else {
+                // Other sessions - Embedded player
+                let videoUrl = 'https://www.youtube.com/embed/dQw4w9wgxcq'; // Default
+                if (session === 2 || session === 3) {
+                    videoUrl = 'https://www.youtube.com/embed/p3Fa4AHcBK8';
+                }
+                
+                document.getElementById('package-container').innerHTML = `
+                    <div class="package-content rounded-3xl p-6">
+                        <div class="flex justify-between items-center mb-6">
+                            <h2 class="text-2xl font-black text-white">${title}</h2>
+                            <button onclick="showPremiumContent()" class="px-5 py-2 bg-zinc-800 hover:bg-zinc-700 rounded-xl text-sm">← Back</button>
+                        </div>
+                        <iframe width="100%" height="500" src="${videoUrl}" 
+                                title="${title}" frameborder="0" 
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                allowfullscreen class="video-frame"></iframe>
+                    </div>
+                `;
+            }
+        }
+
+        function watchYouTubeVideo(url) {
+            window.open(url, '_blank');
         }
 
         function copyToClipboard(text) {
